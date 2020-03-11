@@ -10,4 +10,15 @@
     <PackageReference Include="LabBench.Interface" Version="2.3.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Functions\" />
+    <Folder Include="Messages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="cpar.ddfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
