@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Inventors.ECP" Version="1.4.2" />
+    <PackageReference Include="Inventors.Logging" Version="2.1.1" />
+    <PackageReference Include="LabBench.Interface" Version="2.3.2" />
+  </ItemGroup>
+
+</Project>
