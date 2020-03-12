@@ -7,12 +7,16 @@ using Inventors.ECP;
 using Inventors.ECP.Communication;
 using Inventors.ECP.Functions;
 using Inventors.Logging;
+using LabBench.Interface;
 
 namespace LabBench.CPAR
 {
     public class CPARDevice :
-        Device
+        Device,
+        IPressureAlgometer
     {
+        #region Device implementation
+
         public CPARDevice() :
             base(new SerialPortLayer())
         {
@@ -54,9 +58,8 @@ namespace LabBench.CPAR
 
         public void Accept(StatusMessage msg)
         {
-            Log.Debug("VAS: {0}", msg.VasScore);
         }
-
+        #endregion
         #region Device Definitions
         public enum PressureType
         {
@@ -68,6 +71,7 @@ namespace LabBench.CPAR
         public static readonly double MAX_PRESSURE = 100;
         public static readonly double MAX_SUPPLY_PRESSURE = 1000;
         public static readonly double MAX_SCORE = 10;
+
 
         public static int TimeToRate(double time)
         {
@@ -337,6 +341,40 @@ namespace LabBench.CPAR
             };
         }
         #endregion
+        #region IPressureAlgometer
+        double IPressureAlgometer.MaximalPressure => MAX_PRESSURE;
 
+        double IPressureAlgometer.SamplePeriod => 1 / ((double)UPDATE_RATE);
+
+        AlgometerState IPressureAlgometer.State => throw new NotImplementedException();
+
+        string IPressureAlgometer.Error => throw new NotImplementedException();
+
+        double IPressureAlgometer.SupplyPressure => throw new NotImplementedException();
+
+        IList<double> IPressureAlgometer.VasScore => vasScore.AsReadOnly();
+
+        StopCondition IPressureAlgometer.StopCondition => throw new NotImplementedException();
+
+        IList<IPressureChannel> IPressureAlgometer.Channels => throw new NotImplementedException();
+
+
+        void IPressureAlgometer.Start(StopCriterion criterion, bool forcedStart)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IPressureAlgometer.Stop()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IPressureAlgometer.Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        private readonly List<double> vasScore = new List<double>();
+        #endregion
     }
 }
