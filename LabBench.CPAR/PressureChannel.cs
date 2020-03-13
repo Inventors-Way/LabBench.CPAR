@@ -20,7 +20,8 @@ namespace LabBench.CPAR
 
         internal void Add(double pressure)
         {
-
+            _pressures.Add(pressure);
+            Notify(nameof(Pressure));
         }
 
         internal void Reset()
@@ -31,11 +32,15 @@ namespace LabBench.CPAR
 
         public string Name => _channel.ToString();
 
-        public IList<double> Pressure => throw new NotImplementedException();
+        public IList<double> Pressure => _pressures.AsReadOnly();
 
         public void SetStimulus(int repeat, double period, IStimulus stimulus)
         {
-            throw new NotImplementedException();
+            var compiler = new StimulusCompiler();
+            var program = compiler.Compile(stimulus, period);
+            program.Channel = (byte) (_channel - 1);
+            program.Repeat = (byte) repeat;
+            _device.Execute(program);
         }
 
         private List<double> _pressures = new List<double>();

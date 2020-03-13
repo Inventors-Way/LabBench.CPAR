@@ -35,7 +35,7 @@ namespace Inventors.CPAR.Functions
 
             public Instruction()
             {
-                encoding = new byte[INSTRUCTIONS_LENGTH];
+                Encoding = new byte[INSTRUCTIONS_LENGTH];
                 InstructionType = InstructionType.NOP;
                 Argument = 0;
                 Steps = 1;
@@ -43,7 +43,7 @@ namespace Inventors.CPAR.Functions
 
             public Instruction(InstructionType type)
             {
-                encoding = new byte[INSTRUCTIONS_LENGTH];
+                Encoding = new byte[INSTRUCTIONS_LENGTH];
                 InstructionType = type;
                 Argument = 0;
                 Steps = 1;
@@ -55,11 +55,11 @@ namespace Inventors.CPAR.Functions
             {
                 get
                 {
-                    return (InstructionType)encoding[0];
+                    return (InstructionType)Encoding[0];
                 }
                 set
                 {
-                    encoding[0] = (byte)value;
+                    Encoding[0] = (byte)value;
                 }
             }
 
@@ -69,15 +69,15 @@ namespace Inventors.CPAR.Functions
             {
                 get
                 {
-                    return (((double)encoding[1]) / 256) + encoding[2];
+                    return (((double)Encoding[1]) / 256) + Encoding[2];
                 }
                 set
                 {
                     double truncated;
                     truncated = value > 255 ? 255 : value;
                     truncated = value < 0 ? 0 : value;
-                    encoding[2] = (byte) Math.Truncate(truncated);
-                    encoding[1] = (byte) Math.Truncate(256*truncated);
+                    Encoding[2] = (byte) Math.Truncate(truncated);
+                    Encoding[1] = (byte) Math.Truncate(256*truncated);
                 }
             }
 
@@ -87,24 +87,18 @@ namespace Inventors.CPAR.Functions
             {
                 get
                 {
-                    return (ushort)(encoding[3] + encoding[4] * 256);
+                    return (ushort)(Encoding[3] + Encoding[4] * 256);
                 }
                 set
                 {
                     ushort steps = (ushort) (value == 0 ? 1 : value);
-                    encoding[4] = (byte)(steps >> 8);
-                    encoding[3] = (byte)(steps - (ushort)(encoding[4] << 8));
+                    Encoding[4] = (byte)(steps >> 8);
+                    Encoding[3] = (byte)(steps - (ushort)(Encoding[4] << 8));
                 }
             }
 
             [Category("Encoding")]
-            public byte[] Encoding
-            {
-                get
-                {
-                    return encoding;
-                }
-            }
+            public byte[] Encoding { get; private set; }
 
             public override string ToString()
             {
@@ -140,8 +134,6 @@ namespace Inventors.CPAR.Functions
 
                 return retValue;
             }
-
-            private byte[] encoding;
         }
 
         public static Instruction CreateIncrementInstr(double delta, double time)
@@ -185,7 +177,7 @@ namespace Inventors.CPAR.Functions
 
         [Category("Waveform Program")]
         [XmlElement("instruction")]
-        public Instruction[] Instructions { get; set; } = new Instruction[0];
+        public List<Instruction> Instructions { get; set; } = new List<Instruction>();
 
         [Category("Waveform Program")]
         [XmlAttribute("channel")]
@@ -236,7 +228,7 @@ namespace Inventors.CPAR.Functions
                     retValue += instr.Steps;
                 }
 
-                return retValue = Repeat * retValue/UPDATE_RATE;
+                return Repeat * retValue/UPDATE_RATE;
             }
         }
 
@@ -291,9 +283,9 @@ namespace Inventors.CPAR.Functions
         {
             get
             {
-                return Instructions.Length > MAX_NO_OF_INSTRUCTIONS ?
+                return Instructions.Count > MAX_NO_OF_INSTRUCTIONS ?
                        MAX_NO_OF_INSTRUCTIONS :
-                       Instructions.Length;
+                       Instructions.Count;
             }
         }
 

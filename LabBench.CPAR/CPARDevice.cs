@@ -8,6 +8,8 @@ using Inventors.ECP.Communication;
 using Inventors.ECP.Functions;
 using Inventors.Logging;
 using LabBench.Interface;
+using System.Threading;
+using System.Linq;
 
 namespace LabBench.CPAR
 {
@@ -16,6 +18,14 @@ namespace LabBench.CPAR
         IPressureAlgometer
     {
         #region Device implementation
+        private bool _ping = false;
+
+        private bool Ping
+        {
+            get { lock (this) { return _ping; } }
+            set { lock (this) { _ping = value; } }
+        }
+
 
         public CPARDevice() :
             base(new SerialPortLayer())
@@ -37,6 +47,10 @@ namespace LabBench.CPAR
 
             Master.Add(new StatusMessage());
             Master.Add(new EventMessage());
+
+            timer = new Timer(OnTimer, this, 500, 500);
+            _channels.Add(new PressureChannel(1, this));
+            _channels.Add(new PressureChannel(2, this));
         }
 
         public override bool IsCompatible(DeviceIdentification identification)
@@ -58,6 +72,7 @@ namespace LabBench.CPAR
 
         public void Accept(StatusMessage msg)
         {
+            
         }
 
         #endregion
@@ -87,6 +102,19 @@ namespace LabBench.CPAR
         public static ushort TimeToCount(double time) => (ushort)Math.Ceiling(time * UPDATE_RATE);
         #endregion
         #region IPressureAlgometer
+        private Timer timer;
+
+        private static void OnTimer(object state)
+        {
+            if (state is CPARDevice device)
+            {
+                if (device.Ping)
+                {
+                    device.Execute(new Ping());
+                }
+            }
+        }
+
         double IPressureAlgometer.MaximalPressure => MAX_PRESSURE;
 
         double IPressureAlgometer.SamplePeriod => 1 / ((double)UPDATE_RATE);
@@ -115,7 +143,7 @@ namespace LabBench.CPAR
             get => _supplyPressure;
         }
 
-        IList<double> IPressureAlgometer.VasScore => vasScore.AsReadOnly();
+        public IList<double> VasScore => vasScore.AsReadOnly();
 
         private StopCondition _stopCondition;
 
@@ -125,25 +153,51 @@ namespace LabBench.CPAR
             get => _stopCondition;
         }
 
-        IList<IPressureChannel> IPressureAlgometer.Channels => throw new NotImplementedException();
+        public IList<IPressureChannel> Channels => (from c in _channels select c as IPressureChannel).ToList();
 
-
-        void IPressureAlgometer.Start(StopCriterion criterion, bool forcedStart)
+        public void Start(StopCriterion criterion, bool forcedStart)
         {
-            throw new NotImplementedException();
+            if (forcedStart)
+            {
+                var function = new ForceStartStimulation()
+                {
+                    Criterion = criterion == StopCriterion.STOP_CRITERION_ON_BUTTON ?
+                                ForceStartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON :
+                                ForceStartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON_VAS
+                };
+                Execute(function);
+                Ping = true;
+            }
+            else
+            {
+                var function = new StartStimulation()
+                {
+                    Criterion = criterion == StopCriterion.STOP_CRITERION_ON_BUTTON ?
+                                             StartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON :
+                                             StartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON_VAS
+
+                };
+                Execute(function);
+                Ping = true;
+            }
+            
         }
 
-        void IPressureAlgometer.Stop()
+        public void Stop()
         {
-            throw new NotImplementedException();
+            Execute(new StopStimulation());
+            Ping = false;
         }
 
-        void IPressureAlgometer.Reset()
+        public void Reset()
         {
-            throw new NotImplementedException();
+            vasScore.Clear();
+            Notify(nameof(VasScore));
+            _channels.ForEach((c) => c.Reset());
         }
 
         private readonly List<double> vasScore = new List<double>();
+        private List<PressureChannel> _channels = new List<PressureChannel>();
         #endregion
     }
 }
