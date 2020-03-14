@@ -10,7 +10,8 @@
 %   cparStop           - Stop pressure generation before it is completed
 %   cparPulse          - Create a rectangular waveform
 %   cparRamp           - Create a ramp waveform
-%   cparCombined       - Combine waveforms into a superimposed waveform
+%   cparCombined       - Create a combined waveform
+%   cparCombinedAdd    - Add a waveform to a combined waveform
 %   cparCreateStimulus - Create a pressure stimulus
 %   cparIsUpdated      - Check if there is new data available
 %   cparGetData        - Get data from a CPAR device
