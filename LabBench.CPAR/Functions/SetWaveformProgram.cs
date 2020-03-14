@@ -141,7 +141,7 @@ namespace Inventors.CPAR.Functions
             return new Instruction()
             {
                 InstructionType = InstructionType.INC,
-                Argument = (255 * (delta / 100)) / UPDATE_RATE,
+                Argument = (255 * (delta / MAX_PRESSURE)) / UPDATE_RATE,
                 Steps = (ushort)(time * UPDATE_RATE)
             };
         }
@@ -151,7 +151,7 @@ namespace Inventors.CPAR.Functions
             return new Instruction()
             {
                 InstructionType = InstructionType.DEC,
-                Argument = (255 * (delta / 100)) / UPDATE_RATE,
+                Argument = (255 * (delta / MAX_PRESSURE)) / UPDATE_RATE,
                 Steps = (ushort)(time * UPDATE_RATE)
             };
         }
@@ -161,7 +161,7 @@ namespace Inventors.CPAR.Functions
             return new Instruction()
             {
                 InstructionType = InstructionType.STEP,
-                Argument = (255 * (pressure / 100)),
+                Argument = (255 * (pressure / MAX_PRESSURE)),
                 Steps = (ushort)(time * UPDATE_RATE)
             };
         }

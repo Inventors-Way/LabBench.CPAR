@@ -19,9 +19,9 @@ namespace LabBench.CPAR
             public int Count { get; set; }
         }
 
-        private List<Line> CompileLines(IStimulus stimulus)
+        private void CompileLines(IStimulus stimulus)
         {
-            List<Line> retValue = new List<Line>();
+            lines = new List<Line>();
             var analyser = new TimeAnalyser();
             stimulus.Visit(analyser);
             analyser.TimePoints.Sort();           
@@ -29,7 +29,7 @@ namespace LabBench.CPAR
 
             for (int n = 0; n < time.Length - 1; ++n)
             {
-                retValue.Add(new Line()
+                lines.Add(new Line()
                 {
                     Time = time[n],
                     Value = stimulus.GetValue(time[n]),
@@ -38,16 +38,13 @@ namespace LabBench.CPAR
                     Count = CPARDevice.TimeToCount(time[n + 1] - time[n])
                 });
             }
-
-
-            return retValue;
         }
 
-        private List<Line> CleanLines(List<Line> input)
+        private void CleanLines()
         {
             List<Line> output = new List<Line>();
 
-            foreach (var line in input)
+            foreach (var line in lines)
             {
                 if (line.Count > 0)
                 {
@@ -55,33 +52,36 @@ namespace LabBench.CPAR
                 }
             }
 
-            return output;
+            lines = output;
         }
 
-        private void CompileInstructions(List<Line> lines)
+        private void CompileInstructions()
         {
+            double pressure = 0.0;
+
             foreach (var line in lines)
             {
                 if (line.Slope == 0)
                 {
-                    Program.Instructions.Add(SetWaveformProgram.CreateStepInstr(line.Value, line.Time));
+                    Program.Instructions.Add(SetWaveformProgram.CreateStepInstr(line.Value, line.Length));
+                    pressure = line.Value;
                 }
                 else
                 {
-                    if (line.Value == 0)
+                    if (line.Value == pressure)
                     {
                         if (line.Slope > 0)
                         {
-                            Program.Instructions.Add(SetWaveformProgram.CreateIncrementInstr(line.Slope, line.Time));
+                            Program.Instructions.Add(SetWaveformProgram.CreateIncrementInstr(line.Slope, line.Length));
                         }
                         else
                         {
-                            Program.Instructions.Add(SetWaveformProgram.CreateDecrementInstr(-line.Slope, line.Time));
+                            Program.Instructions.Add(SetWaveformProgram.CreateDecrementInstr(-line.Slope, line.Length));
                         }
                     }
                     else
                     {
-                        throw new ArgumentException("CPAR Does not support ramps that does not start from zero pressure");
+                        throw new ArgumentException("CPAR Does not support ramps that does not start from the current pressure pressure");
                     }
                 }
             }
@@ -93,9 +93,10 @@ namespace LabBench.CPAR
 
             if (stimulus != null)
             {
-                List<Line> lines = CompileLines(stimulus);
-                lines = CleanLines(lines);
-                CompileInstructions(lines);
+                lines = new List<Line>();
+                CompileLines(stimulus);
+                CleanLines();
+                CompileInstructions();
             }
 
             return Program;
@@ -104,5 +105,6 @@ namespace LabBench.CPAR
         public SetWaveformProgram Program { get; private set; }
 
         private double[] time;
+        List<Line> lines;
     }
 }
