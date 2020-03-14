@@ -5,22 +5,27 @@ function [data] = cparGetData(dev)
     ratings = dev.driver.Rating;
     data.vas = zeros(1, ratings.Count);
     data.t = zeros(1, ratings.Count);
-
+    t = 0.0;
+    
     for n = 1:ratings.Count
-       data.vas(n) = ratings.Item(n - 1) 
-       data.t(n) = (n - 1)/20;
+       data.vas(n) = ratings.Item(n - 1); 
+       data.t(n) = t;
+       t = t + (1/20.0);
     end
     
-    [data.p01, data.p01final] = GetPressure(dev.driver.Channels.Item(0));
-    [data.p02, data.p02final] = GetPressure(dev.driver.Channels.Item(1));
+    [data.p01, data.t01, data.p01final] = GetPressure(dev.driver.Channels.Item(0));
+    [data.p02, data.t02, data.p02final] = GetPressure(dev.driver.Channels.Item(1));
 end
 
-function [p, final] = GetPressure(ch)
-    values = ch.Pressure;
-    p = zeros(1, values.Count);
+function [p, t, final] = GetPressure(ch)
+    actual = ch.Pressure;
+    target = ch.TargetPressure;
+    p = zeros(1, actual.Count);
+    t = zeros(1, actual.Count);
     final = ch.FinalPressure;
     
-    for n = 1:values.Count
-       p(n) = values.Item(n - 1); 
+    for n = 1:actual.Count
+       p(n) = actual.Item(n - 1); 
+       p(n) = target.Item(n - 1); 
     end
 end

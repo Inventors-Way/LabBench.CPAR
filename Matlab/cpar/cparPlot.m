@@ -5,17 +5,27 @@ function cparPlot(data)
 clf;
 set(gcf, 'Color', [1 1 1]);
 
-subplot(2,1,1);
-plot(data.t, data.p01, 'r',...
-     data.t, data.p02, 'b'); 
+subplot(3,1,1);
+plot(data.t, data.p01, 'r-',...
+     data.t, data.t01, 'b-'); 
 xlabel('Time [s]'); 
 ylabel('Pressure [kPa]');
-title('Pressure');
+title('Pressure (1)');
 set(gca,'TickDir', 'out');
 set(gca,'Box', 'off');
-legend('1', '2');
+legend('actual', 'target');
 
-subplot(2,1,2);
+subplot(3,1,2);
+plot(data.t, data.p02, 'r',...
+     data.t, data.t02, 'b'); 
+xlabel('Time [s]'); 
+ylabel('Pressure [kPa]');
+title('Pressure (2)');
+set(gca,'TickDir', 'out');
+set(gca,'Box', 'off');
+legend('actual', 'target');
+
+subplot(3,1,3);
 plot(data.t, data.vas, 'k');
 xlabel('Time [s]'); 
 ylabel('VAS [cm]');
