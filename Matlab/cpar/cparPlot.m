@@ -6,8 +6,8 @@ clf;
 set(gcf, 'Color', [1 1 1]);
 
 subplot(3,1,1);
-plot(data.t, data.p01, 'r-',...
-     data.t, data.t01, 'b-'); 
+plot(data.t, data.p01, 'r.-',...
+     data.t, data.t01, 'b.-'); 
 xlabel('Time [s]'); 
 ylabel('Pressure [kPa]');
 title('Pressure (1)');

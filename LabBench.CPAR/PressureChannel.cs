@@ -38,8 +38,8 @@ namespace LabBench.CPAR
 
         public double FinalPressure
         {
-            get => _finalPressure;
-            internal set => SetProperty(ref _finalPressure, value);
+            get { lock (LockObject) { return _finalPressure; } }
+            internal set => SetPropertyLocked(ref _finalPressure, value);
         }
 
         public IList<double> TargetPressure => _target.AsReadOnly();

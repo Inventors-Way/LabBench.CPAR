@@ -22,7 +22,7 @@ namespace LabBench.CPAR
 
         public bool Ping
         {
-            get => GetPropertyLocked(ref _ping);
+            get { lock (LockObject) { return _ping; } }
             set => SetPropertyLocked(ref _ping ,value); 
         }
 
@@ -77,12 +77,13 @@ namespace LabBench.CPAR
             StopCondition = (AlgometerStopCondition) msg.Condition;
             SupplyPressure = msg.SupplyPressure;
 
-            if (State == AlgometerState.STATE_STIMULATING || 
-                ((oldState != State) && State == AlgometerState.STATE_IDLE))
+            if (State == AlgometerState.STATE_STIMULATING) 
             {
                 _channels[0].Add(msg.ActualPressure01, msg.TargetPressure01);
                 _channels[1].Add(msg.ActualPressure02, msg.TargetPressure02);
                 vasScore.Add(msg.VasScore);
+
+                Log.Debug("Force = {0:0.00}, {1:0.00}, Vas = {2:0.00}", msg.ActualPressure01, msg.ActualPressure01, msg.VasScore);
             }
 
             _channels[0].FinalPressure = msg.FinalPressure01;
@@ -210,48 +211,48 @@ namespace LabBench.CPAR
 
         public AlgometerState State
         {
+            get {  lock(LockObject) { return _state; } }
             private set => SetPropertyLocked(ref _state, value);
-            get => GetPropertyLocked(ref _state);
         }
 
         private bool _vasReady = false;
 
         public bool VasReady
         {
-            get => GetPropertyLocked(ref _vasReady);
-            set => SetPropertyLocked(ref _vasReady, value);
+            get { lock (LockObject) { return _vasReady; } }
+            private set => SetPropertyLocked(ref _vasReady, value);
         }
 
         private bool _vasConnected = false;
 
         public bool VasConnected
         {
-            get => GetPropertyLocked(ref _vasConnected);
-            set => SetPropertyLocked(ref _vasConnected, value);
+            get { lock (LockObject) { return _vasConnected; } }
+            private set => SetPropertyLocked(ref _vasConnected, value);
         }
 
         private bool _pressureAvailable = false;
 
         public bool PressureAvailable
         {
-            get => GetPropertyLocked(ref _pressureAvailable);
-            set => SetPropertyLocked(ref _pressureAvailable, value);
+            get { lock (LockObject) { return _pressureAvailable; } }
+            private set => SetPropertyLocked(ref _pressureAvailable, value);
         }
 
         private string _error;
 
         public string Error
         {
+            get { lock (LockObject) { return _error; } }
             private set => SetPropertyLocked(ref _error, value);
-            get => GetPropertyLocked(ref _error);
         }
 
         private double _supplyPressure;
 
         public double SupplyPressure
         {
+            get { lock (LockObject) { return _supplyPressure; } }
             private set => SetPropertyLocked(ref _supplyPressure, value);
-            get => GetPropertyLocked(ref _supplyPressure);
         }
 
         public IList<double> Rating => vasScore.AsReadOnly();
@@ -260,24 +261,24 @@ namespace LabBench.CPAR
 
         public double FinalRating
         {
-            get => GetPropertyLocked(ref _finalRating);
-            set => SetPropertyLocked(ref _finalRating, value);
+            get { lock (LockObject) { return _finalRating; } }
+            private set => SetPropertyLocked(ref _finalRating, value);
         }
 
         private double _currentRating = 0;
 
         public double CurrentRating
         {
-            get => _currentRating;
-            set => SetProperty(ref _currentRating, value);
+            get { lock (LockObject) { return _currentRating; } }
+            private set => SetPropertyLocked(ref _currentRating, value);
         }
 
         private AlgometerStopCondition _stopCondition;
 
         public AlgometerStopCondition StopCondition
         {
+            get { lock (LockObject) { return _stopCondition; } }
             private set => SetPropertyLocked(ref _stopCondition, value);
-            get => GetPropertyLocked(ref _stopCondition);
         }
 
         public IList<IPressureChannel> Channels => (from c in _channels select c as IPressureChannel).ToList();
