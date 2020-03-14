@@ -1,7 +1,6 @@
-function [stimulus] = cparCreateStimulus(channel, repeat, period, waveform)
+function [stimulus] = cparCreateStimulus(channel, repeat, waveform)
 % cparCreateStimulus Create a stimulus from a waveform
-%    [stimulus] = cparCreateStimulus(channel, repeat, period, waveform)
+%    [stimulus] = cparCreateStimulus(channel, repeat, waveform)
 stimulus.channel = channel;
 stimulus.repeat = repeat;
-stimulus.period = period;
 stimulus.waveform = waveform;
