@@ -13,7 +13,6 @@
 %   cparCombined       - Create a combined waveform
 %   cparCombinedAdd    - Add a waveform to a combined waveform
 %   cparCreateStimulus - Create a pressure stimulus
-%   cparIsUpdated      - Check if there is new data available
 %   cparGetData        - Get data from a CPAR device
 %   cparPlot           - Plot the data from a CPAR device
 %   cparError          - Retrive error information 
