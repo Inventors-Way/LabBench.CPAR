@@ -9,8 +9,8 @@ function [dev] = cparCreate(port)
 %
 % See also, cparOpen, cparClose.
 
-dev.DriverPath = fullfile(fileparts(mfilename('fullpath')),'libs', 'LabBench.CPAR.dll');   
-dev.Assembly = NET.addAssembly(dev.DriverPath);
+DriverPath = fullfile(fileparts(mfilename('fullpath')),'libs', 'LabBench.CPAR.dll');   
+NET.addAssembly(DriverPath);
 
-dev.driver = LabBench.CPAR.CPARDevice;
-dev.driver.Location = Inventors.ECP.Location.Parse(port);
+dev = LabBench.CPAR.CPARDevice;
+dev.Location = Inventors.ECP.Location.Parse(port);

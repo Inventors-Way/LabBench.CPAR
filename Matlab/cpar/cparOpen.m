@@ -3,4 +3,4 @@ function cparOpen(dev)
 %   cparOpen(CPAR)
 %
 % See also, cparCreate, cparClose
-dev.driver.Open();
+dev.Open();

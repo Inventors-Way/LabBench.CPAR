@@ -1,8 +1,9 @@
 function [data] = cparGetData(dev)
     % cparGetData Get the data from a CPAR device.
-    %    [data] = cparGetData(dev)
+    %    [data] = cparGetData(dev) retrieve the current collected data
+    %    from the CPAR device.
 
-    ratings = dev.driver.Rating;
+    ratings = dev.Rating;
     data.vas = zeros(1, ratings.Count);
     data.t = zeros(1, ratings.Count);
     t = 0.0;
@@ -13,8 +14,8 @@ function [data] = cparGetData(dev)
        t = t + (1/20.0);
     end
     
-    [data.p01, data.p01final] = GetPressure(dev.driver.Channels.Item(0));
-    [data.p02, data.p02final] = GetPressure(dev.driver.Channels.Item(1));
+    [data.p01, data.p01final] = GetPressure(dev.Channels.Item(0));
+    [data.p02, data.p02final] = GetPressure(dev.Channels.Item(1));
 end
 
 function [p, final] = GetPressure(ch)

@@ -3,4 +3,4 @@ function cparClose(dev)
 %   cparClose(dev) close communication with the CPAR device.
 %
 % See also, cparCreate, cparOpen
-dev.driver.Close();
+dev.Close();

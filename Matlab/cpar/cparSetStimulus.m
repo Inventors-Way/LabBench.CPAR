@@ -1,5 +1,8 @@
 function cparSetStimulus(dev, stimulus)
 % cparSetStimulus Set the stimulus for a pressure channel
-%   cparSetStimulus(channel, stimulus)
-channel = dev.driver.Channels.Item(stimulus.channel);
+%   cparSetStimulus(dev, stimulus) update the CPAR device [dev]
+%   with the stimulus [stimulus].
+%
+%   See also, cparCreateStimulus
+channel = dev.Channels.Item(stimulus.channel);
 channel.SetStimulus(stimulus.repeat, stimulus.waveform);

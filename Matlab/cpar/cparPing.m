@@ -6,12 +6,12 @@ if enable
     ping = Inventors.ECP.Functions.Ping;
 
     try    
-        dev.driver.Execute(ping);
-        dev.driver.Ping = true;
+        dev.Execute(ping);
+        dev.Ping = true;
         fprintf('Ping: %d\n', ping.Count);
     catch
        fprintf('Ping failed\n'); 
     end
 else
-   dev.driver.Ping = false; 
+   dev.Ping = false; 
 end
