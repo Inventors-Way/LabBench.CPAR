@@ -72,11 +72,13 @@ namespace LabBench.CPAR
 
         public void Accept(StatusMessage msg)
         {
+            var oldState = State;
             State = GetState(msg); 
             StopCondition = (AlgometerStopCondition) msg.Condition;
             SupplyPressure = msg.SupplyPressure;
 
-            if (State == AlgometerState.STATE_STIMULATING)
+            if (State == AlgometerState.STATE_STIMULATING || 
+                ((oldState != State) && State == AlgometerState.STATE_IDLE))
             {
                 _channels[0].Add(msg.ActualPressure01);
                 _channels[1].Add(msg.ActualPressure02);
