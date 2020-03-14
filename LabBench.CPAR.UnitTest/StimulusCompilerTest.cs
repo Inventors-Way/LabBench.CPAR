@@ -18,8 +18,7 @@ namespace LabBench.CPAR.UnitTest
                 Ts = 1,
                 Tdelay = 0
             };
-            var compiler = new StimulusCompiler();
-            var function = compiler.Compile(pulse, 2);
+            var function = StimulusCompiler.Compile(pulse);
 
             Assert.AreEqual(expected: 1.0, actual: function.ProgramLength, 0.01);
         }

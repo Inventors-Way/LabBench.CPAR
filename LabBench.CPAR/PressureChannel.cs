@@ -34,16 +34,22 @@ namespace LabBench.CPAR
 
         public IList<double> Pressure => _pressures.AsReadOnly();
 
-        public void SetStimulus(int repeat, double period, IStimulus stimulus)
+        public double FinalPressure
         {
-            var compiler = new StimulusCompiler();
-            var program = compiler.Compile(stimulus, period);
+            get => _finalPressure;
+            internal set => SetProperty(ref _finalPressure, value);
+        }
+
+        public void SetStimulus(int repeat, IStimulus stimulus)
+        {
+            var program = StimulusCompiler.Compile(stimulus);
             program.Channel = (byte) (_channel - 1);
             program.Repeat = (byte) repeat;
             _device.Execute(program);
         }
 
         private List<double> _pressures = new List<double>();
+        private double _finalPressure = 0;
         private byte _channel;
         private CPARDevice _device;
     }

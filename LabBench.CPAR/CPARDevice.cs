@@ -85,12 +85,10 @@ namespace LabBench.CPAR
                 _channels[1].Add(msg.ActualPressure02);
                 vasScore.Add(msg.VasScore);
             }
-            else if (newState != oldState)
-            {
-                _channels[0].Add(msg.FinalPressure01);
-                _channels[1].Add(msg.FinalPressure02);
-                vasScore.Add(msg.FinalVasScore);
-            }
+
+            _channels[0].FinalPressure = msg.FinalPressure01;
+            _channels[1].FinalPressure = msg.FinalPressure02;
+            FinalRating = msg.FinalVasScore;
         }
 
         private AlgometerState GetState(StatusMessage msg)
@@ -196,7 +194,23 @@ namespace LabBench.CPAR
             get => _supplyPressure;
         }
 
-        public IList<double> VasScore => vasScore.AsReadOnly();
+        public IList<double> Rating => vasScore.AsReadOnly();
+
+        private double _finalRating = 0;
+
+        public double FinalRating
+        {
+            get => _finalRating;
+            set => SetProperty(ref _finalRating, value);
+        }
+
+        private double _currentRating = 0;
+
+        public double CurrentRating
+        {
+            get => _currentRating;
+            set => SetProperty(ref _currentRating, value);
+        }
 
         private AlgometerStopCondition _stopCondition;
 
@@ -245,7 +259,7 @@ namespace LabBench.CPAR
         public void Reset()
         {
             vasScore.Clear();
-            Notify(nameof(VasScore));
+            Notify(nameof(Rating));
             _channels.ForEach((c) => c.Reset());
         }
 

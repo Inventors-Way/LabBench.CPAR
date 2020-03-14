@@ -87,7 +87,7 @@ namespace LabBench.CPAR
             }
         }
 
-        public SetWaveformProgram Compile(IStimulus stimulus, double period)
+        private SetWaveformProgram PerformCompile(IStimulus stimulus)
         {
             Program = new SetWaveformProgram();
 
@@ -102,8 +102,19 @@ namespace LabBench.CPAR
             return Program;
         }
 
+        public static SetWaveformProgram Compile(IStimulus stimulus)
+        {
+            if (instance is null)
+            {
+                instance = new StimulusCompiler();
+            }
+
+            return instance.PerformCompile(stimulus);
+        }
+
         public SetWaveformProgram Program { get; private set; }
 
+        private static StimulusCompiler instance = null;
         private double[] time;
         List<Line> lines;
     }
