@@ -15,6 +15,5 @@
 %   cparIsUpdated      - Check if there is new data available
 %   cparGetData        - Get data from a CPAR device
 %   cparPlot           - Plot the data from a CPAR device
-%   cparVerbose        - Enable/disable diagnostic output
 %   cparError          - Retrive error information 
 %   cparReset          - Reset collection of pressure and VAS from the CPAR device
