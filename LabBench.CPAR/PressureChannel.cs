@@ -30,6 +30,8 @@ namespace LabBench.CPAR
         {
             _pressures.Clear();
             Notify(nameof(Pressure));
+            _target.Clear();
+            Notify(nameof(TargetPressure));
         }
 
         public string Name => _channel.ToString();

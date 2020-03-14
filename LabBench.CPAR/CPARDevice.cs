@@ -83,7 +83,7 @@ namespace LabBench.CPAR
                 _channels[1].Add(msg.ActualPressure02, msg.TargetPressure02);
                 vasScore.Add(msg.VasScore);
 
-                Log.Debug("Force = {0:0.00}, {1:0.00}, Vas = {2:0.00}", msg.ActualPressure01, msg.ActualPressure01, msg.VasScore);
+                Log.Debug("Force = {0:0.00}, {1:0.00}, Vas = {2:0.00}", msg.ActualPressure01, msg.TargetPressure01, msg.VasScore);
             }
 
             _channels[0].FinalPressure = msg.FinalPressure01;

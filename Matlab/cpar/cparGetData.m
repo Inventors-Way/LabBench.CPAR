@@ -21,11 +21,11 @@ function [p, t, final] = GetPressure(ch)
     actual = ch.Pressure;
     target = ch.TargetPressure;
     p = zeros(1, actual.Count);
-    t = zeros(1, actual.Count);
+    t = zeros(1, target.Count);
     final = ch.FinalPressure;
     
     for n = 1:actual.Count
        p(n) = actual.Item(n - 1); 
-       p(n) = target.Item(n - 1); 
+       t(n) = target.Item(n - 1); 
     end
 end
