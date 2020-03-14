@@ -13,19 +13,16 @@ function [data] = cparGetData(dev)
        t = t + (1/20.0);
     end
     
-    [data.p01, data.t01, data.p01final] = GetPressure(dev.driver.Channels.Item(0));
-    [data.p02, data.t02, data.p02final] = GetPressure(dev.driver.Channels.Item(1));
+    [data.p01, data.p01final] = GetPressure(dev.driver.Channels.Item(0));
+    [data.p02, data.p02final] = GetPressure(dev.driver.Channels.Item(1));
 end
 
-function [p, t, final] = GetPressure(ch)
+function [p, final] = GetPressure(ch)
     actual = ch.Pressure;
-    target = ch.TargetPressure;
     p = zeros(1, actual.Count);
-    t = zeros(1, target.Count);
     final = ch.FinalPressure;
     
     for n = 1:actual.Count
        p(n) = actual.Item(n - 1); 
-       t(n) = target.Item(n - 1); 
     end
 end
