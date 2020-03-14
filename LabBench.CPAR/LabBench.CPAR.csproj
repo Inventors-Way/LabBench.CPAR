@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Inventors.ECP" Version="1.4.8" />
     <PackageReference Include="Inventors.Logging" Version="2.1.3" />
-    <PackageReference Include="LabBench.Interface" Version="0.7.0" />
+    <PackageReference Include="LabBench.Interface" Version="0.9.0" />
   </ItemGroup>
 
   <ItemGroup>

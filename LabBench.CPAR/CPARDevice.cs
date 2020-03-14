@@ -80,8 +80,8 @@ namespace LabBench.CPAR
             if (State == AlgometerState.STATE_STIMULATING || 
                 ((oldState != State) && State == AlgometerState.STATE_IDLE))
             {
-                _channels[0].Add(msg.ActualPressure01);
-                _channels[1].Add(msg.ActualPressure02);
+                _channels[0].Add(msg.ActualPressure01, msg.TargetPressure01);
+                _channels[1].Add(msg.ActualPressure02, msg.TargetPressure02);
                 vasScore.Add(msg.VasScore);
             }
 
@@ -89,6 +89,9 @@ namespace LabBench.CPAR
             _channels[1].FinalPressure = msg.FinalPressure02;
             FinalRating = msg.FinalVasScore;
             CurrentRating = msg.VasScore;
+            VasReady = msg.VasIsLow;
+            VasConnected = msg.VasConnected;
+            PressureAvailable = !msg.CompressorRunning;
             UpdateError(msg);
         }
 
@@ -209,6 +212,30 @@ namespace LabBench.CPAR
         {
             private set => SetPropertyLocked(ref _state, value);
             get => GetPropertyLocked(ref _state);
+        }
+
+        private bool _vasReady = false;
+
+        public bool VasReady
+        {
+            get => GetPropertyLocked(ref _vasReady);
+            set => SetPropertyLocked(ref _vasReady, value);
+        }
+
+        private bool _vasConnected = false;
+
+        public bool VasConnected
+        {
+            get => GetPropertyLocked(ref _vasConnected);
+            set => SetPropertyLocked(ref _vasConnected, value);
+        }
+
+        private bool _pressureAvailable = false;
+
+        public bool PressureAvailable
+        {
+            get => GetPropertyLocked(ref _pressureAvailable);
+            set => SetPropertyLocked(ref _pressureAvailable, value);
         }
 
         private string _error;

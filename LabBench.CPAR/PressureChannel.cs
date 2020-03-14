@@ -18,10 +18,12 @@ namespace LabBench.CPAR
             _device = device;
         }
 
-        internal void Add(double pressure)
+        internal void Add(double pressure, double target)
         {
             _pressures.Add(pressure);
             Notify(nameof(Pressure));
+            _target.Add(target);
+            Notify(nameof(TargetPressure));
         }
 
         internal void Reset()
@@ -40,6 +42,8 @@ namespace LabBench.CPAR
             internal set => SetProperty(ref _finalPressure, value);
         }
 
+        public IList<double> TargetPressure => _target.AsReadOnly();
+
         public void SetStimulus(int repeat, IStimulus stimulus)
         {
             var program = StimulusCompiler.Compile(stimulus);
@@ -49,6 +53,7 @@ namespace LabBench.CPAR
         }
 
         private List<double> _pressures = new List<double>();
+        private List<double> _target = new List<double>();
         private double _finalPressure = 0;
         private byte _channel;
         private CPARDevice _device;
