@@ -22,8 +22,8 @@ namespace LabBench.CPAR
 
         public bool Ping
         {
-            get { lock (this) { return _ping; } }
-            set { lock (this) { SetProperty(ref _ping ,value); } }
+            get => GetPropertyLocked(ref _ping);
+            set => SetPropertyLocked(ref _ping ,value); 
         }
 
 
@@ -72,14 +72,11 @@ namespace LabBench.CPAR
 
         public void Accept(StatusMessage msg)
         {
-            var oldState = State;
-            var newState = GetState(msg);
-
-            State = newState;
+            State = GetState(msg); 
             StopCondition = (AlgometerStopCondition) msg.Condition;
             SupplyPressure = msg.SupplyPressure;
 
-            if (newState == AlgometerState.STATE_STIMULATING)
+            if (State == AlgometerState.STATE_STIMULATING)
             {
                 _channels[0].Add(msg.ActualPressure01);
                 _channels[1].Add(msg.ActualPressure02);
@@ -89,6 +86,40 @@ namespace LabBench.CPAR
             _channels[0].FinalPressure = msg.FinalPressure01;
             _channels[1].FinalPressure = msg.FinalPressure02;
             FinalRating = msg.FinalVasScore;
+            CurrentRating = msg.VasScore;
+            UpdateError(msg);
+        }
+
+        private void UpdateError(StatusMessage msg)
+        {
+            if (State == AlgometerState.STATE_NOT_CONNECTED)
+            {
+                Error = "Connection failed";
+            }
+            else if (!msg.PowerOn)
+            {
+                Error = "Please turn on the CPAR device";
+            }
+            else if (State == AlgometerState.STATE_EMERGENCY)
+            {
+                Error = "Emergency button is activated";
+            }
+            else if (!msg.VasConnected)
+            {
+                Error = "Please connect the VAS meter";
+            }
+            else if (!msg.VasIsLow && (State == AlgometerState.STATE_IDLE))
+            {
+                Error = "Please set the VAS score to 0.0cm";
+            }
+            else if (msg.CompressorRunning)
+            {
+                Error = "Please wait for the compressor to turn off";
+            }
+            else
+            {
+                Error = "";
+            }
         }
 
         private AlgometerState GetState(StatusMessage msg)
@@ -174,24 +205,24 @@ namespace LabBench.CPAR
 
         public AlgometerState State
         {
-            private set => SetProperty(ref _state, value);
-            get => _state;
+            private set => SetPropertyLocked(ref _state, value);
+            get => GetPropertyLocked(ref _state);
         }
 
         private string _error;
 
         public string Error
         {
-            private set => SetProperty(ref _error, value);
-            get => _error;
+            private set => SetPropertyLocked(ref _error, value);
+            get => GetPropertyLocked(ref _error);
         }
 
         private double _supplyPressure;
 
         public double SupplyPressure
         {
-            private set => SetProperty(ref _supplyPressure, value);
-            get => _supplyPressure;
+            private set => SetPropertyLocked(ref _supplyPressure, value);
+            get => GetPropertyLocked(ref _supplyPressure);
         }
 
         public IList<double> Rating => vasScore.AsReadOnly();
@@ -200,8 +231,8 @@ namespace LabBench.CPAR
 
         public double FinalRating
         {
-            get => _finalRating;
-            set => SetProperty(ref _finalRating, value);
+            get => GetPropertyLocked(ref _finalRating);
+            set => SetPropertyLocked(ref _finalRating, value);
         }
 
         private double _currentRating = 0;
@@ -216,8 +247,8 @@ namespace LabBench.CPAR
 
         public AlgometerStopCondition StopCondition
         {
-            private set => SetProperty(ref _stopCondition, value);
-            get => _stopCondition;
+            private set => SetPropertyLocked(ref _stopCondition, value);
+            get => GetPropertyLocked(ref _stopCondition);
         }
 
         public IList<IPressureChannel> Channels => (from c in _channels select c as IPressureChannel).ToList();
