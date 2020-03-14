@@ -16,3 +16,4 @@
 %   cparGetData        - Get data from a CPAR device
 %   cparPlot           - Plot the data from a CPAR device
 %   cparVerbose        - Enable/disable diagnostic output
+%   cparError          - Retrive error information 
