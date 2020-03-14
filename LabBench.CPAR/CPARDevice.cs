@@ -20,10 +20,10 @@ namespace LabBench.CPAR
         #region Device implementation
         private bool _ping = false;
 
-        private bool Ping
+        public bool Ping
         {
             get { lock (this) { return _ping; } }
-            set { lock (this) { _ping = value; } }
+            set { lock (this) { SetProperty(ref _ping ,value); } }
         }
 
 
@@ -72,8 +72,53 @@ namespace LabBench.CPAR
 
         public void Accept(StatusMessage msg)
         {
-            
+            var oldState = State;
+            var newState = GetState(msg);
+
+            State = newState;
+            StopCondition = (AlgometerStopCondition) msg.Condition;
+            SupplyPressure = msg.SupplyPressure;
+
+            if (newState == AlgometerState.STATE_STIMULATING)
+            {
+                _channels[0].Add(msg.ActualPressure01);
+                _channels[1].Add(msg.ActualPressure02);
+                vasScore.Add(msg.VasScore);
+            }
+            else if (newState != oldState)
+            {
+                _channels[0].Add(msg.FinalPressure01);
+                _channels[1].Add(msg.FinalPressure02);
+                vasScore.Add(msg.FinalVasScore);
+            }
         }
+
+        private AlgometerState GetState(StatusMessage msg)
+        {
+            AlgometerState retValue = AlgometerState.STATE_NOT_CONNECTED;
+
+            switch (msg.SystemState)
+            {
+                case StatusMessage.State.STATE_STIMULATING:
+                    retValue = AlgometerState.STATE_STIMULATING;
+                    break;
+
+                case StatusMessage.State.STATE_IDLE:
+                    retValue = AlgometerState.STATE_IDLE;
+                    break;
+
+                case StatusMessage.State.STATE_EMERGENCY:
+                    retValue = AlgometerState.STATE_EMERGENCY;
+                    break;
+
+                default:
+                    retValue = AlgometerState.STATE_NOT_CONNECTED;
+                    break;
+            }
+
+            return retValue;
+        }
+
 
         #endregion
         #region Device Definitions
@@ -102,15 +147,23 @@ namespace LabBench.CPAR
         public static ushort TimeToCount(double time) => (ushort)Math.Ceiling(time * UPDATE_RATE);
         #endregion
         #region IPressureAlgometer
-        private Timer timer;
+        private readonly Timer timer;
 
         private static void OnTimer(object state)
         {
             if (state is CPARDevice device)
             {
-                if (device.Ping)
+                try
                 {
-                    device.Execute(new Ping());
+                    if (device.Ping)
+                    {
+                        device.Execute(new Ping());
+                    }
+                }
+                catch 
+                {
+                    device.Ping = false;
+                    device.State = AlgometerState.STATE_NOT_CONNECTED;
                 }
             }
         }
@@ -145,9 +198,9 @@ namespace LabBench.CPAR
 
         public IList<double> VasScore => vasScore.AsReadOnly();
 
-        private StopCondition _stopCondition;
+        private AlgometerStopCondition _stopCondition;
 
-        public StopCondition StopCondition
+        public AlgometerStopCondition StopCondition
         {
             private set => SetProperty(ref _stopCondition, value);
             get => _stopCondition;
@@ -155,13 +208,13 @@ namespace LabBench.CPAR
 
         public IList<IPressureChannel> Channels => (from c in _channels select c as IPressureChannel).ToList();
 
-        public void Start(StopCriterion criterion, bool forcedStart)
+        public void Start(AlgometerStopCriterion criterion, bool forcedStart)
         {
             if (forcedStart)
             {
                 var function = new ForceStartStimulation()
                 {
-                    Criterion = criterion == StopCriterion.STOP_CRITERION_ON_BUTTON ?
+                    Criterion = criterion == AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON ?
                                 ForceStartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON :
                                 ForceStartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON_VAS
                 };
@@ -172,7 +225,7 @@ namespace LabBench.CPAR
             {
                 var function = new StartStimulation()
                 {
-                    Criterion = criterion == StopCriterion.STOP_CRITERION_ON_BUTTON ?
+                    Criterion = criterion == AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON ?
                                              StartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON :
                                              StartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON_VAS
 
