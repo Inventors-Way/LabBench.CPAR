@@ -6,8 +6,8 @@ clf;
 set(gcf, 'Color', [1 1 1]);
 
 subplot(2,1,1);
-plot(data.t, data.p01, 'r.-',...
-     data.t, data.p02, 'b.-'); 
+plot(data.t, data.p01, 'r-',...
+     data.t, data.p02, 'b-'); 
 ylabel('Pressure [kPa]');
 title('Pressure (1)');
 set(gca,'TickDir', 'out');

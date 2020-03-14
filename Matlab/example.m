@@ -1,20 +1,3 @@
-# LabBench.CPAR
-
-LabBench Device driver for the Cuff Pressure Algometer Research (CPAR). This driver can be used
-for using the CPAR device in .NET application or with Matlab.
-
-## Matlab
-
-### Installation
-
-For installation copy the Matlab/cpar directory in the current repository and add this directory
-to the path of Matlab.
-
-### Using the CPAR device from Matlab
-
-The example Matlab code for creating a temporal summation:
-
-```matlab
 % Create a device and open communication with the device.
 dev = cparCreate('COM18');
 cparOpen(dev);
@@ -48,4 +31,4 @@ fprintf('State: %s\n', dev.State.ToString());
 data = cparGetData(dev);
 cparPlot(data);
 cparClose(dev);
-```
+

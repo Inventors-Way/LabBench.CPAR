@@ -18,7 +18,7 @@ function cparStart(dev, condition, forced)
 %   set to zero, if it is true the stimulation can be started regardless of the 
 %   value of the VAS rating.
 %
-%   The stop condition can after the stimulation in
+%   The stop condition can after the stimulation in be examined in [dev].
 %
 %   See also, cparStop
 if strcmp(condition, 'v')

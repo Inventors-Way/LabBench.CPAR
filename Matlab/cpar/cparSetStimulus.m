@@ -4,5 +4,5 @@ function cparSetStimulus(dev, stimulus)
 %   with the stimulus [stimulus].
 %
 %   See also, cparCreateStimulus
-channel = dev.Channels.Item(stimulus.channel);
+channel = dev.Channels.Item(stimulus.channel - 1);
 channel.SetStimulus(stimulus.repeat, stimulus.waveform);
