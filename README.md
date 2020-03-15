@@ -1,7 +1,20 @@
 # LabBench.CPAR
 
+PLEASE NOTE, THIS LIBRARY IS CURRENTLY VERY MUCH IN DEVELOPMENT, AND IS NOT RELEASED FOR GENERAL USE.
+USE AT YOUR OWN RISK.
+
 LabBench Device driver for the Cuff Pressure Algometer Research (CPAR). This driver can be used
-for using the CPAR device in .NET application or with Matlab.
+for using the CPAR device in .NET applications or with Matlab.
+
+This library requires CPAR to run firmware version 7.0.0 or higher. If your CPAR device does not run
+this version of the firmware, which will be the case for all CPAR devices currently in use as this library
+and corresponding firmware is still in development. If you are interested in testing this library then
+please contact the team behind the CPAR software on krhe@hst.aau.dk to obtain instructions on how to upgrade
+the firmware of your CPAR device.
+
+## .NET Applications
+
+To Be Written
 
 ## Matlab
 
