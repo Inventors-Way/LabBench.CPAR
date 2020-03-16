@@ -63,7 +63,7 @@ namespace LabBench.CPAR
             {
                 if (line.Slope == 0)
                 {
-                    Program.Instructions.Add(SetWaveformProgram.CreateStepInstr(line.Value, line.Length));
+                    Program.Instructions.Add(Instruction.Step(line.Value, line.Length));
                     pressure = line.Value;
                 }
                 else
@@ -72,11 +72,11 @@ namespace LabBench.CPAR
                     {
                         if (line.Slope > 0)
                         {
-                            Program.Instructions.Add(SetWaveformProgram.CreateIncrementInstr(line.Slope, line.Length));
+                            Program.Instructions.Add(Instruction.Increment(line.Slope, line.Length));
                         }
                         else
                         {
-                            Program.Instructions.Add(SetWaveformProgram.CreateDecrementInstr(-line.Slope, line.Length));
+                            Program.Instructions.Add(Instruction.Decrement(-line.Slope, line.Length));
                         }
                     }
                     else
