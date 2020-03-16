@@ -73,9 +73,7 @@ namespace LabBench.CPAR.Functions
                 }
                 set
                 {
-                    double truncated;
-                    truncated = value > 255 ? 255 : value;
-                    truncated = value < 0 ? 0 : value;
+                    double truncated = value > 255 ? 255 : value < 0 ? 0 : value;
                     Encoding[2] = (byte) Math.Truncate(truncated);
                     Encoding[1] = (byte) Math.Truncate(256*truncated);
                 }
