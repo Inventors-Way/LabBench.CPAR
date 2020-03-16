@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Inventors.CPAR.Functions;
-using Inventors.CPAR.Messages;
+using LabBench.CPAR.Functions;
+using LabBench.CPAR.Messages;
 using Inventors.ECP;
 using Inventors.ECP.Communication;
 using Inventors.ECP.Functions;

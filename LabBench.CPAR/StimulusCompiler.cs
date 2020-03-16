@@ -1,4 +1,4 @@
-﻿using Inventors.CPAR.Functions;
+﻿using LabBench.CPAR.Functions;
 using LabBench.Interface.Stimuli;
 using LabBench.Interface.Stimuli.Analysis;
 using System;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventors.CPAR.Functions
+namespace LabBench.CPAR.Functions
 {
     public enum CalibratorID
     {

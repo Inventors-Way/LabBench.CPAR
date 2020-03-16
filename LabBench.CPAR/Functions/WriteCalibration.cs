@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Inventors.CPAR.Functions
+namespace LabBench.CPAR.Functions
 {
     public class WriteCalibration :
         DeviceFunction

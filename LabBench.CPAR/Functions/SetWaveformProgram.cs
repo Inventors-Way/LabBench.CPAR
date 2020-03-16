@@ -9,7 +9,7 @@ using Inventors.ECP;
 using Inventors.ECP.Communication;
 using Inventors.ECP.Utility;
 
-namespace Inventors.CPAR.Functions
+namespace LabBench.CPAR.Functions
 {
     public class SetWaveformProgram :
         DeviceFunction

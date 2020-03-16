@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventors.CPAR.Messages
+namespace LabBench.CPAR.Messages
 {
     public class StatusMessage :
         DeviceMessage
