@@ -1,7 +1,11 @@
 ﻿using Inventors.ECP;
+using LabBench.CPAR.Messages;
+using LabBench.Interface;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace LabBench.CPAR.UnitTest
 {
@@ -9,6 +13,7 @@ namespace LabBench.CPAR.UnitTest
     {
         private static TC instance;
         private CPARDevice device;
+        private Stopwatch watch;
 
         private TC(string port)
         {
@@ -17,6 +22,7 @@ namespace LabBench.CPAR.UnitTest
                 Location = Location.Parse(port)
             };
             device.Open();
+            watch = new Stopwatch();
         }
 
         private static TC Instance
@@ -30,6 +36,30 @@ namespace LabBench.CPAR.UnitTest
 
                 return instance;
             }
+        }
+
+        public static void Wait(AlgometerState state, int timeout)
+        {
+            Stopwatch timeoutWatch = new Stopwatch();
+            Thread.Sleep(100);
+            timeoutWatch.Restart();
+            while (Device.State == state)
+            {
+                if (timeoutWatch.ElapsedMilliseconds > timeout)
+                {
+                    throw new InvalidOperationException("Timeout while waiting in state: " + state.ToString());
+                }
+            }
+        }
+
+        public static void Tic()
+        {
+            Instance.watch.Restart();
+        }
+
+        public static int Toc()
+        {
+            return (int) Instance.watch.ElapsedMilliseconds;
         }
 
         public static CPARDevice Device => Instance.device;
