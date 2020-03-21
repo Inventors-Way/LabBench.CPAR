@@ -12,10 +12,10 @@ namespace LabBench.CPAR.Functions
     public class KickWatchdog :
         DeviceFunction
     {
-        public KickWatchdog() : base(0x02, requestLength: 0, responseLength: 4) { }
+        public KickWatchdog() : base(0x08, requestLength: 0, responseLength: 4) { }
 
         public override FunctionDispatcher CreateDispatcher() => 
-            new FunctionDispatcher(0x02, () => new KickWatchdog());
+            new FunctionDispatcher(0x08, () => new KickWatchdog());
 
         public override bool Dispatch(dynamic listener) => listener.Accept(this);
 
