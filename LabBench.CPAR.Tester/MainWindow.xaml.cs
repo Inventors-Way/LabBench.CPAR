@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inventors.ECP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,64 @@ namespace LabBench.CPAR.Tester
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static RoutedCommand OpenDeviceCmd = new RoutedCommand();
+        private CPARDevice device;
+
         public MainWindow()
         {
             InitializeComponent();
+            device = new CPARDevice
+            {
+                Location = Location.Parse("COM18")
+            };
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (device.IsOpen)
+            {
+                device.Close();
+            }
+
+            Close();
+        }
+
+        private void ExitPossible(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        // ExecutedRoutedEventHandler for the custom color command.
+        private void OpenDeviceCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            device.Open();
+        }
+
+        // CanExecuteRoutedEventHandler for the custom color command.
+        private void OpenDeviceCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !device.IsOpen;
+        }
+
+        private void CloseDeviceCmdCanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = device.IsOpen;
+
+        private void CloseDeviceCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            device.Close();
+        }
+
+        private void PingDeviceCmdCanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = device.IsOpen;
+
+        private void PingDeviceCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                MessageBox.Show("Ping: " + device.Ping().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ping failed: " + ex.Message);
+            }
         }
     }
 }

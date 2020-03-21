@@ -6,6 +6,32 @@
         xmlns:local="clr-namespace:LabBench.CPAR.Tester"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" 
+                        CanExecute="ExitPossible" 
+                        Executed="CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static local:DeviceCommands.Open}" 
+                        CanExecute="OpenDeviceCmdCanExecute" 
+                        Executed="OpenDeviceCmdExecuted" />
+        <CommandBinding Command="{x:Static local:DeviceCommands.Close}" 
+                        CanExecute="CloseDeviceCmdCanExecute" 
+                        Executed="CloseDeviceCmdExecuted" />
+        <CommandBinding Command="{x:Static local:DeviceCommands.Ping}" 
+                        CanExecute="PingDeviceCmdCanExecute" 
+                        Executed="PingDeviceCmdExecuted" />
+    </Window.CommandBindings>
     <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Exit" Command="ApplicationCommands.Close" />
+            </MenuItem>
+            <MenuItem Header="_Device">
+                <MenuItem Header="_Open" Command="{x:Static local:DeviceCommands.Open}"/>
+                <MenuItem Header="_Close" Command="{x:Static local:DeviceCommands.Close}"/>
+                <Separator />
+                <MenuItem Header="_Ping"  Command="{x:Static local:DeviceCommands.Ping}"/>
+            </MenuItem>
+        </Menu>
+        
     </DockPanel>
 </Window>
