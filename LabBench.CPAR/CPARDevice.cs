@@ -57,6 +57,11 @@ namespace LabBench.CPAR
             _channels.Add(new PressureChannel(2, this));
         }
 
+        public override DeviceFunction CreateIdentificationFunction()
+        {
+            return new LabBench.CPAR.Functions.DeviceIdentification();
+        }
+
         public override bool IsCompatible(DeviceFunction function)
         {
             bool retValue = false;

@@ -13,14 +13,6 @@ namespace LabBench.CPAR.UnitTest
     public class PressureStimulationTest
     {
         [TestMethod]
-        public void KickWatchdog()
-        {
-            var device = TC.Device;
-            var kicks = device.Ping();
-            Assert.IsTrue(kicks >= 0);
-        }
-
-        [TestMethod]
         public void SinglePulse()
         {
             var device = TC.Device;
