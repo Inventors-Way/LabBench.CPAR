@@ -11,9 +11,9 @@ namespace LabBench.CPAR.Functions
     public class StopStimulation : 
         DeviceFunction
     {
-        public StopStimulation() : base(0x14, requestLength: 0, responseLength: 0) { }
+        public StopStimulation() : base(0x04, requestLength: 0, responseLength: 0) { }
 
-        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x14, () => new StopStimulation());
+        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x04, () => new StopStimulation());
 
         public override bool Dispatch(dynamic listener) => listener.Accept(this);
 

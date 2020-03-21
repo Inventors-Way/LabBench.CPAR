@@ -20,12 +20,12 @@ namespace LabBench.CPAR.Functions
         }
 
         public ForceStartStimulation() :
-            base(code: 0x1A, requestLength: 1, responseLength: 0)
+            base(code: 0x0A, requestLength: 1, responseLength: 0)
         {
             Criterion = StopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
         }
 
-        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x1A, () => new ForceStartStimulation());
+        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x0A, () => new ForceStartStimulation());
 
         public override bool Dispatch(dynamic listener) => listener.Accept(this);
 
@@ -34,14 +34,8 @@ namespace LabBench.CPAR.Functions
         [XmlAttribute("stop-criterion")]
         public StopCriterion Criterion
         {
-            get
-            {
-                return (StopCriterion)Request.GetByte(0);
-            }
-            set
-            {
-                Request.InsertByte(0, (byte)value);
-            }
+            get => (StopCriterion)Request.GetByte(0);
+            set => Request.InsertByte(0, (byte)value);
         }
 
         public override string ToString() => "[0x1A] Force Start Stimulation";

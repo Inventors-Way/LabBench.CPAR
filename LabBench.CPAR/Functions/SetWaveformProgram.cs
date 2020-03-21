@@ -15,7 +15,7 @@ namespace LabBench.CPAR.Functions
         DeviceFunction
     {
         public const int MAX_NO_OF_INSTRUCTIONS = 20;
-        public const byte FUNCTION_CODE = 0x12;
+        public const byte FUNCTION_CODE = 0x02;
         public const double MAX_PRESSURE = 100;
         public const double UPDATE_RATE = 20;
 

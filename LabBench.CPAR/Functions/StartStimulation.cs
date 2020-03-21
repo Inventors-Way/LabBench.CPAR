@@ -20,12 +20,12 @@ namespace LabBench.CPAR.Functions
         }
 
         public StartStimulation() : 
-            base(0x13, requestLength: 1, responseLength: 0)
+            base(0x03, requestLength: 1, responseLength: 0)
         {
             Criterion = StopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
         }
 
-        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x13, () => new StartStimulation());
+        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x03, () => new StartStimulation());
 
         public override bool Dispatch(dynamic listener) => listener.Accept(this);
 

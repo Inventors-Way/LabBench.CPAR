@@ -20,21 +20,24 @@ namespace LabBench.CPAR
         #region Device implementation
         private bool _ping = false;
 
-        public bool Ping
+        public bool PingEnabled
         {
             get { lock (LockObject) { return _ping; } }
             set => SetPropertyLocked(ref _ping ,value); 
         }
 
+        bool IPressureAlgometer.Ping
+        {
+            get => PingEnabled;
+            set => PingEnabled = value;
+        }
 
         public CPARDevice() :
             base(new SerialPortLayer())
         {
             BaudRate = 38400;
 
-            FunctionList.Add(new DeviceIdentification());
-            FunctionList.Add(new Ping());
-            FunctionList.Add(new GetEndianness());
+            FunctionList.Add(new LabBench.CPAR.Functions.DeviceIdentification());
 
             FunctionList.Add(new SetWaveformProgram());
             FunctionList.Add(new StartStimulation());
@@ -42,6 +45,7 @@ namespace LabBench.CPAR
             FunctionList.Add(new WriteSerialNumber());
             FunctionList.Add(new WriteCalibration());
             FunctionList.Add(new ReadCalibration());
+            FunctionList.Add(new KickWatchdog());
             FunctionList.Add(new ForceStartStimulation());
 
 
@@ -53,16 +57,22 @@ namespace LabBench.CPAR
             _channels.Add(new PressureChannel(2, this));
         }
 
-        public override bool IsCompatible(DeviceIdentification identification)
+        public override bool IsCompatible(DeviceFunction function)
         {
-            if (identification == null)
+            bool retValue = false;
+
+            if (function is null)
             {
-                throw new ArgumentNullException(nameof(identification));
+                throw new ArgumentNullException(nameof(function));
             }
 
-            return (identification.ManufactureID == Manufacturer.Nocitech) && 
-                   (identification.DeviceID == 1) &&
-                   (identification.MajorVersion >= 7);
+            if (function is LabBench.CPAR.Functions.DeviceIdentification identification)
+            {
+                retValue = (identification.Identity == 1);
+            }
+
+
+            return retValue;
         }
 
         public void Accept(EventMessage msg)
@@ -190,17 +200,24 @@ namespace LabBench.CPAR
             {
                 try
                 {
-                    if (device.Ping)
+                    if (device.PingEnabled)
                     {
-                        device.Execute(new Ping());
+                        device.Ping();
                     }
                 }
                 catch 
                 {
-                    device.Ping = false;
+                    device.PingEnabled = false;
                     device.State = AlgometerState.STATE_NOT_CONNECTED;
                 }
             }
+        }
+
+        public override int Ping()
+        {
+            var pingFunction = new LabBench.CPAR.Functions.KickWatchdog();
+            Execute(pingFunction);
+            return (int) pingFunction.Counter;
         }
 
         double IPressureAlgometer.MaximalPressure => MAX_PRESSURE;
@@ -294,7 +311,7 @@ namespace LabBench.CPAR
                                 ForceStartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON_VAS
                 };
                 Execute(function);
-                Ping = true;
+                PingEnabled = true;
             }
             else
             {
@@ -306,7 +323,7 @@ namespace LabBench.CPAR
 
                 };
                 Execute(function);
-                Ping = true;
+                PingEnabled = true;
             }
             
         }
@@ -314,7 +331,7 @@ namespace LabBench.CPAR
         public void Stop()
         {
             Execute(new StopStimulation());
-            Ping = false;
+            PingEnabled = false;
         }
 
         public void Reset()

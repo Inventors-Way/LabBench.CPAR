@@ -13,7 +13,7 @@ namespace LabBench.CPAR.Functions
     public class ReadCalibration : 
         DeviceFunction
     {
-        public static byte FUNCTION_CODE = 0x17;
+        public static byte FUNCTION_CODE = 0x07;
         private static byte CALIBRATION_RECORD_SIZE = 10;
         private static byte VALID_MARKER = 0xC9;
 

@@ -12,9 +12,9 @@ namespace LabBench.CPAR.Functions
     public class WriteSerialNumber :
         DeviceFunction
     {
-        public WriteSerialNumber() : base(0x15, requestLength: 2, responseLength: 0) { }
+        public WriteSerialNumber() : base(0x05, requestLength: 2, responseLength: 0) { }
 
-        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x15, () => new StopStimulation());
+        public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x05, () => new StopStimulation());
 
         public override bool Dispatch(dynamic listener) => listener.Accept(this);
 
