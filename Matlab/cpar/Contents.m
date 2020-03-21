@@ -17,3 +17,8 @@
 %   cparPlot           - Plot the data from a CPAR device
 %   cparError          - Retrive error information 
 %   cparReset          - Reset collection of pressure and VAS from the CPAR device
+%   cparExecute        - Execute an ECP DeviceFunction
+%   cparWaveform_Step  - Add a step instruction to a waveform
+%   cparWaveform_Inc   - Add a increment instruction to a waveform
+%   cparWaveform_Dev   - Add a decrement instruction to a waveform
+%   cparClearChannel   - Clear a pressure channel

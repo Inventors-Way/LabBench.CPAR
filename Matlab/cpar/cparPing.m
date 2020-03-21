@@ -3,15 +3,13 @@ function cparPing(dev, enable)
 %   cparPing(dev, enable)
 
 if enable
-    ping = Inventors.ECP.Functions.Ping;
-
     try    
-        dev.Execute(ping);
-        dev.Ping = true;
-        fprintf('Ping: %d\n', ping.Count);
+        kicks = dev.Ping();
+        dev.PingEnabled = true;
+        fprintf('Ping: %d\n', kicks);
     catch
        fprintf('Ping failed\n'); 
     end
 else
-   dev.Ping = false; 
+   dev.PingEnabled = false; 
 end
