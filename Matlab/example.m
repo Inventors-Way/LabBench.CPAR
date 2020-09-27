@@ -1,12 +1,12 @@
 % Create a device and open communication with the device.
-dev = cparCreate('COM18');
+dev = cparCreate('COM14');
 cparOpen(dev);
 
 try
     % Create a stimulus that can be used for temporal summation
     pon = cparRamp(50, 1, 0);
     pon2 = cparPulse(50, 1, 1);
-    poff = cparPulse(20, 2, 1.5);
+    poff = cparPulse(20, 10, 1.5);
     combined = cparCombined();
     cparCombinedAdd(combined, pon);
     cparCombinedAdd(combined, pon2);
@@ -33,6 +33,7 @@ try
     data = cparGetData(dev);
     cparPlot(data);
     cparClose(dev);
-catch
-   cparClose(dev); 
+catch me
+    me
+   cparClose(dev);    
 end
