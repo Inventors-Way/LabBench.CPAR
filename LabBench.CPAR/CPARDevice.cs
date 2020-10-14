@@ -357,10 +357,8 @@ namespace LabBench.CPAR
         /// This exception is thrown if the instrument does not implement the IAnalogGenerator interface
         /// </exception>
         /// <param name="setup"></param>
-        public void Initialize(IAnalogGeneratorSetup setup) 
-        {
+        public void Initialize(IAnalogGeneratorSetup setup) =>
             throw new InvalidConfigurationException("CPAR does not support generating analog voltages");
-        }
 
         /// <summary>
         /// Initialize a ISweepSampler if it is implement by the instrument. 
@@ -369,10 +367,8 @@ namespace LabBench.CPAR
         /// This exception is thrown if the instrument does not implement the ISweepSAmpler interface
         /// </exception>
         /// <param name="setup"></param>
-        public void Initialize(ISweepSamplerSetup setup)
-        {
+        public void Initialize(ISweepSamplerSetup setup) =>
             throw new InvalidConfigurationException("CPAR does not support sampling voltages");
-        }
 
         #endregion
     }
