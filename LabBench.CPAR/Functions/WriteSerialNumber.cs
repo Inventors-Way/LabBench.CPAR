@@ -16,7 +16,7 @@ namespace LabBench.CPAR.Functions
 
         public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x05, () => new StopStimulation());
 
-        public override bool Dispatch(dynamic listener) => listener.Accept(this);
+        public override int Dispatch(dynamic listener) => listener.Accept(this);
 
         [XmlAttribute("serial-number")]
         public UInt16 SerialNumber

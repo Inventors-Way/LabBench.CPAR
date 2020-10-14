@@ -13,9 +13,9 @@ namespace LabBench.CPAR.Functions
     public class ReadCalibration : 
         DeviceFunction
     {
-        public static byte FUNCTION_CODE = 0x07;
-        private static byte CALIBRATION_RECORD_SIZE = 10;
-        private static byte VALID_MARKER = 0xC9;
+        public readonly static byte FUNCTION_CODE = 0x07;
+        private readonly static byte CALIBRATION_RECORD_SIZE = 10;
+        private readonly static byte VALID_MARKER = 0xC9;
 
         public ReadCalibration() : 
             base(FUNCTION_CODE, requestLength: 1, responseLength: CALIBRATION_RECORD_SIZE)
@@ -25,7 +25,7 @@ namespace LabBench.CPAR.Functions
 
         public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(FUNCTION_CODE, () => new ReadCalibration());
 
-        public override bool Dispatch(dynamic listener) => listener.Accept(this);
+        public override int Dispatch(dynamic listener) => listener.Accept(this);
 
         [Category("Calibrator")]
         [XmlAttribute("calibrator")]

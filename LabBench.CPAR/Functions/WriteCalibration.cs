@@ -13,9 +13,9 @@ namespace LabBench.CPAR.Functions
     public class WriteCalibration :
         DeviceFunction
     {
-        public static byte FUNCTION_CODE = 0x06;
-        private static byte CALIBRATION_RECORD_SIZE = 10;
-        private static byte VALID_MARKER = 0xC9;
+        public readonly static byte FUNCTION_CODE = 0x06;
+        private readonly static byte CALIBRATION_RECORD_SIZE = 10;
+        private readonly static byte VALID_MARKER = 0xC9;
 
         public WriteCalibration() : 
             base(FUNCTION_CODE, requestLength: (byte) (CALIBRATION_RECORD_SIZE + 1), responseLength: 0)
@@ -28,7 +28,7 @@ namespace LabBench.CPAR.Functions
 
         public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(FUNCTION_CODE, () => new StopStimulation());
 
-        public override bool Dispatch(dynamic listener) => listener.Accept(this);
+        public override int Dispatch(dynamic listener) => listener.Accept(this);
 
         [XmlAttribute("calibrator")]
         public CalibratorID Calibrator

@@ -1,5 +1,6 @@
 ﻿using Inventors.ECP;
 using Inventors.ECP.Communication;
+using LabBench.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,28 +14,22 @@ namespace LabBench.CPAR.Functions
     public class ForceStartStimulation :
         DeviceFunction
     {
-        public enum StopCriterion
-        {
-            STOP_CRITERION_ON_BUTTON_VAS = 0,
-            STOP_CRITERION_ON_BUTTON
-        }
-
         public ForceStartStimulation() :
             base(code: 0x0A, requestLength: 1, responseLength: 0)
         {
-            Criterion = StopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
+            Criterion = AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
         }
 
         public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x0A, () => new ForceStartStimulation());
 
-        public override bool Dispatch(dynamic listener) => listener.Accept(this);
+        public override int Dispatch(dynamic listener) => listener.Accept(this);
 
         [Category("Stop Criterion")]
         [Description("Stop criterion for the stimulation")]
         [XmlAttribute("stop-criterion")]
-        public StopCriterion Criterion
+        public AlgometerStopCriterion Criterion
         {
-            get => (StopCriterion)Request.GetByte(0);
+            get => (AlgometerStopCriterion)Request.GetByte(0);
             set => Request.InsertByte(0, (byte)value);
         }
 

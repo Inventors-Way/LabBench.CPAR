@@ -18,7 +18,7 @@ namespace LabBench.CPAR.UnitTest
             var device = TC.Device;
             TC.Tic();
             device.Channels[0].SetStimulus(1, new Pulse() { Is = 50, Ts = 1, Tdelay = 0 });
-            device.Start(AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON, true);
+            device.StartStimulation(AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON, true);
             Console.WriteLine("Function execution time {0}ms", TC.Toc());
             TC.Wait(AlgometerState.STATE_STIMULATING, 2000);
             Assert.AreEqual(expected: AlgometerState.STATE_IDLE, actual: device.State);

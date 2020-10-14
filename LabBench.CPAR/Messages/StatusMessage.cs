@@ -61,19 +61,19 @@ namespace LabBench.CPAR.Messages
         #endregion
         #region BYTE 1: System Status (Bitfield)
         [Category("2 System Status")]
-        public bool VasConnected => (Packet.GetByte(1) & 0x01) != 0 ? true : false;
+        public bool VasConnected => (Packet.GetByte(1) & 0x01) != 0;
 
         [Category("2 System Status")]
-        public bool VasIsLow => (Packet.GetByte(1) & 0x02) != 0 ? true : false;
+        public bool VasIsLow => (Packet.GetByte(1) & 0x02) != 0;
 
         [Category("2 System Status")]
-        public bool PowerOn => (Packet.GetByte(1) & 0x04) != 0 ? true : false;
+        public bool PowerOn => (Packet.GetByte(1) & 0x04) != 0;
 
         [Category("2 System Status")]
-        public bool CompressorRunning => (Packet.GetByte(1) & 0x08) != 0 ? true : false;
+        public bool CompressorRunning => (Packet.GetByte(1) & 0x08) != 0;
 
         [Category("2 System Status")]
-        public bool StartPossible => (Packet.GetByte(1) & 0x10) != 0 ? true : false;
+        public bool StartPossible => (Packet.GetByte(1) & 0x10) != 0;
 
         #endregion
         #region BYTE 2-3: Update Counter

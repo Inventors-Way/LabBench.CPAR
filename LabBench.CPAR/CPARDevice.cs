@@ -6,10 +6,11 @@ using LabBench.CPAR.Messages;
 using Inventors.ECP;
 using Inventors.ECP.Communication;
 using Inventors.ECP.Functions;
-using Inventors.Logging;
 using LabBench.Interface;
 using System.Threading;
 using System.Linq;
+using static Inventors.ECP.Log;
+using Inventors.ECP.Profiling;
 
 namespace LabBench.CPAR
 {
@@ -18,14 +19,6 @@ namespace LabBench.CPAR
         IPressureAlgometer
     {
         #region Device implementation
-        private bool _ping = false;
-
-        public bool PingEnabled
-        {
-            get { lock (LockObject) { return _ping; } }
-            set => SetPropertyLocked(ref _ping ,value); 
-        }
-
         bool IPressureAlgometer.Ping
         {
             get => PingEnabled;
@@ -33,7 +26,7 @@ namespace LabBench.CPAR
         }
 
         public CPARDevice() :
-            base(new SerialPortLayer())
+            base(new SerialPortLayer(), new Profiler())
         {
             BaudRate = 38400;
 
@@ -57,10 +50,7 @@ namespace LabBench.CPAR
             _channels.Add(new PressureChannel(2, this));
         }
 
-        public override DeviceFunction CreateIdentificationFunction()
-        {
-            return new LabBench.CPAR.Functions.DeviceIdentification();
-        }
+        public override DeviceFunction CreateIdentificationFunction() => new Functions.DeviceIdentification();
 
         public override bool IsCompatible(DeviceFunction function)
         {
@@ -82,12 +72,12 @@ namespace LabBench.CPAR
 
         public void Accept(EventMessage msg)
         {
-            Log.Debug(msg.Code.ToString());
+            Profiler.Add(new TargetEvent(msg.Code.ToString()));
+            Debug(msg.Code.ToString());
         }
 
         public void Accept(StatusMessage msg)
         {
-            var oldState = State;
             State = GetState(msg); 
             StopCondition = (AlgometerStopCondition) msg.Condition;
             SupplyPressure = msg.SupplyPressure;
@@ -98,7 +88,7 @@ namespace LabBench.CPAR
                 _channels[1].Add(msg.ActualPressure02, msg.TargetPressure02);
                 vasScore.Add(msg.VasScore);
 
-                Log.Debug("Force = {0:0.00}, {1:0.00}, Vas = {2:0.00}", msg.ActualPressure01, msg.TargetPressure01, msg.VasScore);
+                Debug("Force = {0:0.00}, {1:0.00}, Vas = {2:0.00}", msg.ActualPressure01, msg.TargetPressure01, msg.VasScore);
             }
 
             _channels[0].FinalPressure = msg.FinalPressure01;
@@ -115,37 +105,37 @@ namespace LabBench.CPAR
         {
             if (State == AlgometerState.STATE_NOT_CONNECTED)
             {
-                Error = "Connection failed";
+                DeviceError = "Connection failed";
             }
             else if (!msg.PowerOn)
             {
-                Error = "Please turn on the CPAR device";
+                DeviceError = "Please turn on the CPAR device";
             }
             else if (State == AlgometerState.STATE_EMERGENCY)
             {
-                Error = "Emergency button is activated";
+                DeviceError = "Emergency button is activated";
             }
             else if (!msg.VasConnected)
             {
-                Error = "Please connect the VAS meter";
+                DeviceError = "Please connect the VAS meter";
             }
             else if (!msg.VasIsLow && (State == AlgometerState.STATE_IDLE))
             {
-                Error = "Please set the VAS score to 0.0cm";
+                DeviceError = "Please set the VAS score to 0.0cm";
             }
             else if (msg.CompressorRunning)
             {
-                Error = "Please wait for the compressor to turn off";
+                DeviceError = "Please wait for the compressor to turn off";
             }
             else
             {
-                Error = "";
+                DeviceError = "";
             }
         }
 
         private AlgometerState GetState(StatusMessage msg)
         {
-            AlgometerState retValue = AlgometerState.STATE_NOT_CONNECTED;
+            AlgometerState retValue;
 
             switch (msg.SystemState)
             {
@@ -220,7 +210,7 @@ namespace LabBench.CPAR
 
         public override int Ping()
         {
-            var pingFunction = new LabBench.CPAR.Functions.KickWatchdog();
+            var pingFunction = new KickWatchdog();
             Execute(pingFunction);
             return (int) pingFunction.Counter;
         }
@@ -263,7 +253,7 @@ namespace LabBench.CPAR
 
         private string _error;
 
-        public string Error
+        public string DeviceError
         {
             get { lock (LockObject) { return _error; } }
             private set => SetPropertyLocked(ref _error, value);
@@ -305,35 +295,23 @@ namespace LabBench.CPAR
 
         public IList<IPressureChannel> Channels => (from c in _channels select c as IPressureChannel).ToList();
 
-        public void Start(AlgometerStopCriterion criterion, bool forcedStart)
+        public void StartStimulation(AlgometerStopCriterion criterion, bool forcedStart)
         {
             if (forcedStart)
             {
-                var function = new ForceStartStimulation()
-                {
-                    Criterion = criterion == AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON ?
-                                ForceStartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON :
-                                ForceStartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON_VAS
-                };
+                var function = new ForceStartStimulation() { Criterion = criterion };
                 Execute(function);
                 PingEnabled = true;
             }
             else
             {
-                var function = new StartStimulation()
-                {
-                    Criterion = criterion == AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON ?
-                                             StartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON :
-                                             StartStimulation.StopCriterion.STOP_CRITERION_ON_BUTTON_VAS
-
-                };
+                var function = new StartStimulation() { Criterion = criterion };
                 Execute(function);
                 PingEnabled = true;
-            }
-            
+            }            
         }
 
-        public void Stop()
+        public void StopStimulation()
         {
             Execute(new StopStimulation());
             PingEnabled = false;
@@ -347,7 +325,79 @@ namespace LabBench.CPAR
         }
 
         private readonly List<double> vasScore = new List<double>();
-        private List<PressureChannel> _channels = new List<PressureChannel>();
+        private readonly List<PressureChannel> _channels = new List<PressureChannel>();
+        #endregion
+        #region IInstrument
+
+        /// <summary>
+        /// The current connection for the instrument.
+        /// </summary>
+        public IConnection Connection { get; }
+
+        /// <summary>
+        /// Is the instrument ready for use.
+        /// </summary>
+        public bool Ready { get; }
+
+        /// <summary>
+        /// The current advice for getting the system ready for use if it is
+        /// not currently ready for an experiment.
+        /// </summary>
+        public string Advice => DeviceError;
+
+        /// <summary>
+        /// This function must be called periodically by the user of the instrument.
+        /// The instrument can use this function to perform tasks that must be done periodically.
+        /// </summary>
+        /// <returns>true if the instrument is ready, otherwise false</returns>
+        public bool Update() 
+        {
+
+            return false;
+        }
+
+        /// <summary>
+        /// This function opens the instrument and makes it ready for use. This function must be 
+        /// called before the instrument is used.
+        /// </summary>
+        public void StartInstrument()
+        {
+
+        }
+
+        /// <summary>
+        /// This function must be called if the instrument has been opened by the user of the instrument,
+        /// before the user relinques the instrument.
+        /// </summary>
+        public void StopInstrument()
+        {
+
+        }
+
+        /// <summary>
+        /// Initialize a IAnalogGenerator if it is implement by the instrument. 
+        /// </summary>
+        /// <exception cref="InvalidConfigurationException">
+        /// This exception is thrown if the instrument does not implement the IAnalogGenerator interface
+        /// </exception>
+        /// <param name="setup"></param>
+        public void Initialize(IAnalogGeneratorSetup setup) 
+        {
+            throw new InvalidConfigurationException("CPAR does not support generating analog voltages");
+        }
+
+        /// <summary>
+        /// Initialize a ISweepSampler if it is implement by the instrument. 
+        /// </summary>
+        /// <exception cref="InvalidConfigurationException">
+        /// This exception is thrown if the instrument does not implement the ISweepSAmpler interface
+        /// </exception>
+        /// <param name="setup"></param>
+        public void Initialize(ISweepSamplerSetup setup)
+        {
+            throw new InvalidConfigurationException("CPAR does not support sampling voltages");
+        }
+
         #endregion
     }
 }

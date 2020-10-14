@@ -17,7 +17,7 @@ namespace LabBench.CPAR.Functions
         public override FunctionDispatcher CreateDispatcher() =>
             new FunctionDispatcher(0x01, () => new DeviceIdentification());
 
-        public override bool Dispatch(dynamic listener) => listener.Accept(this);
+        public override int Dispatch(dynamic listener) => listener.Accept(this);
 
         [Category("Device")]
         [Description("The type of device that is connected")]

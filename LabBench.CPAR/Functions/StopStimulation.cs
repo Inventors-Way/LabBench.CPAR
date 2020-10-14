@@ -15,7 +15,7 @@ namespace LabBench.CPAR.Functions
 
         public override FunctionDispatcher CreateDispatcher() => new FunctionDispatcher(0x04, () => new StopStimulation());
 
-        public override bool Dispatch(dynamic listener) => listener.Accept(this);
+        public override int Dispatch(dynamic listener) => listener.Accept(this);
 
         public override string ToString() => "[0x04] Stop Stimulation";
     }
