@@ -45,7 +45,6 @@ namespace LabBench.CPAR
             Master.Add(new StatusMessage());
             Master.Add(new EventMessage());
 
-            timer = new Timer(OnTimer, this, 500, 500);
             _channels.Add(new PressureChannel(1, this));
             _channels.Add(new PressureChannel(2, this));
         }
@@ -54,18 +53,15 @@ namespace LabBench.CPAR
 
         public override bool IsCompatible(DeviceFunction function)
         {
+            if (function is null)
+                throw new ArgumentNullException(nameof(function));
+
             bool retValue = false;
 
-            if (function is null)
-            {
-                throw new ArgumentNullException(nameof(function));
-            }
-
-            if (function is LabBench.CPAR.Functions.DeviceIdentification identification)
+            if (function is Functions.DeviceIdentification identification)
             {
                 retValue = (identification.Identity == 1);
             }
-
 
             return retValue;
         }
@@ -187,26 +183,6 @@ namespace LabBench.CPAR
         public static ushort TimeToCount(double time) => (ushort)Math.Ceiling(time * UPDATE_RATE);
         #endregion
         #region IPressureAlgometer
-        private readonly Timer timer;
-
-        private static void OnTimer(object state)
-        {
-            if (state is CPARDevice device)
-            {
-                try
-                {
-                    if (device.PingEnabled)
-                    {
-                        device.Ping();
-                    }
-                }
-                catch 
-                {
-                    device.PingEnabled = false;
-                    device.State = AlgometerState.STATE_NOT_CONNECTED;
-                }
-            }
-        }
 
         public override int Ping()
         {
@@ -332,7 +308,7 @@ namespace LabBench.CPAR
         /// <summary>
         /// The current connection for the instrument.
         /// </summary>
-        public IConnection Connection { get; }
+        public IConnection Connection { get; internal set; }
 
         /// <summary>
         /// Is the instrument ready for use.

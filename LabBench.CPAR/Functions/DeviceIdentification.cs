@@ -39,6 +39,9 @@ namespace LabBench.CPAR.Functions
         [Description("The serial number of device that is connected")]
         public byte Checksum => Response.GetByte(3);
 
+        [Category("Device")]
+        public string Version => $"{MajorRevision}.{EngineeringRevision}";
+
         public override string ToString() => "[0x01] Device Identification";
     }
 }
