@@ -12,8 +12,8 @@ namespace LabBench.CPAR.UnitTest
     public class TC : IDisposable
     {
         private static TC instance;
-        private CPARDevice device;
-        private Stopwatch watch;
+        private readonly CPARDevice device;
+        private readonly Stopwatch watch;
 
         private TC(string port)
         {
@@ -31,7 +31,7 @@ namespace LabBench.CPAR.UnitTest
             {
                 if (instance is null)
                 {
-                    instance = new TC("COM18");
+                    instance = new TC("COM14");
                 }
 
                 return instance;

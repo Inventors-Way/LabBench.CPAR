@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LabBench.Interface.Stimuli;
+using LabBench.CPAR.UnitTest.Scaffolding;
 
 namespace LabBench.CPAR.UnitTest
 {

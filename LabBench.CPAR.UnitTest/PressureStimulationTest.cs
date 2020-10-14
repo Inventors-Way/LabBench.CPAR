@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using LabBench.Interface;
+using LabBench.CPAR.UnitTest.Scaffolding;
 
 namespace LabBench.CPAR.UnitTest
 {
