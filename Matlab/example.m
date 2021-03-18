@@ -4,6 +4,7 @@ cparOpen(dev);
 
 try
     % Create a stimulus that can be used for temporal summation
+    setWaveformFunc = LabBench.CPAR.Functions.SetWaveformProgram;
     pon = cparRamp(50, 1, 0);
     pon2 = cparPulse(50, 1, 1);
     poff = cparPulse(20, 10, 1.5);
@@ -11,7 +12,7 @@ try
     cparCombinedAdd(combined, pon);
     cparCombinedAdd(combined, pon2);
     cparCombinedAdd(combined, poff);
-
+    
     % Update the device with the created stimulus
     cparSetStimulus(dev, cparCreateStimulus(1, 1, combined));
 
@@ -34,6 +35,6 @@ try
     cparPlot(data);
     cparClose(dev);
 catch me
-    me
+   
    cparClose(dev);    
 end
