@@ -8,9 +8,6 @@ try
     cparWaveform_Step(waveform, 20, 0);
     cparWaveform_Inc(waveform, 30, 1);
     cparWaveform_Dec(waveform, 20, 1);
-    cparWaveform_Step(waveform, 0, 1);
-    cparWaveform_Step(waveform, 30, 1);
-    cparWaveform_Step(waveform, 0, 0.5);
     dev.Execute(waveform);
    
     waveform = cparCreateWaveform(2, 1);
@@ -23,7 +20,7 @@ try
     while (cparIsRunning(dev))
         fprintf('State: %s\n', dev.State.ToString()); 
         pause(1);
-        cparGetData(dev, data);
+        data = cparGetData(dev, data);
     end
     fprintf('State: %s\n', dev.State.ToString()); 
     data = cparFinalizeSampling(dev, data);

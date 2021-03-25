@@ -5,8 +5,13 @@ function data = cparInitializeSampling(expectedTime)
         expectedTime = 1;
     end
 
-    data.P01 = NET.createGeneric('System.Collections.Generic.List',{'System.Double'}, expectedTime * 20);
-    data.P02 = NET.createGeneric('System.Collections.Generic.List',{'System.Double'}, expectedTime * 20);
-
+    data.Pressure01 = NET.createGeneric('System.Collections.Generic.List',{'System.Double'}, expectedTime * 20);
+    data.Pressure02 = NET.createGeneric('System.Collections.Generic.List',{'System.Double'}, expectedTime * 20);
+    data.Target01 = NET.createGeneric('System.Collections.Generic.List',{'System.Double'}, expectedTime * 20);
+    data.Target02 = NET.createGeneric('System.Collections.Generic.List',{'System.Double'}, expectedTime * 20);
+    data.VAS = NET.createGeneric('System.Collections.Generic.List',{'System.Double'}, expectedTime * 20);
+    data.Final01 = 0;
+    data.Final02 = 0;
+    data.FinalVAS = 0;
 end
 
