@@ -35,3 +35,5 @@ else
 end
         
 dev.StartStimulation(stop, forced)
+pause(0.1); % Wait for the device to start
+

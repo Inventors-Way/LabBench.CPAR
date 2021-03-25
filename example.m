@@ -3,13 +3,14 @@ cparInitialize;
 dev = cparGetDevice('CPAR:1');
 
 try
-    % Create a stimulus that can be used for temporal summation
+    % Create a stimulus 
     waveform = cparCreateWaveform(1, 1);
-    cparWaveform_Step(waveform, 10, 1);
-    cparWaveform_Step(waveform, 20, 1);
+    cparWaveform_Step(waveform, 20, 0);
+    cparWaveform_Inc(waveform, 30, 1);
+    cparWaveform_Dec(waveform, 20, 1);
+    cparWaveform_Step(waveform, 0, 1);
     cparWaveform_Step(waveform, 30, 1);
-    cparWaveform_Step(waveform, 40, 1);
-    cparWaveform_Step(waveform, 50, 1);
+    cparWaveform_Step(waveform, 0, 0.5);
     dev.Execute(waveform);
    
     waveform = cparCreateWaveform(2, 1);
@@ -17,14 +18,15 @@ try
 
     % Start the stimulation
     cparStart(dev, 'bp', true);
-
+    data = cparInitializeSampling;
     % Wait until stimulation has completed
-    pause(1);
-    while (dev.State == LabBench.Interface.Algometry.AlgometerState.STATE_STIMULATING)
+    while (cparIsRunning(dev))
         fprintf('State: %s\n', dev.State.ToString()); 
         pause(1);
+        cparGetData(dev, data);
     end
     fprintf('State: %s\n', dev.State.ToString()); 
+    data = cparFinalizeSampling(dev, data);
 
 catch me
     me
