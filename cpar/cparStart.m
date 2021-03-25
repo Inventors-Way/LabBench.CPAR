@@ -34,4 +34,4 @@ else
    error('Invalid stop condition, valid values are v or b'); 
 end
         
-dev.Start(stop, forced)
+dev.StartStimulation(stop, forced)
