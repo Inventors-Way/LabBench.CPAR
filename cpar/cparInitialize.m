@@ -6,7 +6,11 @@ config = cparLibraryInfo;
 AddLibrary(config, 'LabBench.Instruments.dll')
 AddLibrary(config, 'LabBench.Instruments.CPAR.dll')
 
-db = LabBench.Instruments.InstrumentDB.Create();
+try
+    db = LabBench.Instruments.InstrumentDB.Create();    
+catch exception    
+    fprintf("Warning: %s\n", exception.ExceptionObject.Message)
+end
 
 function AddLibrary(config, library)
     DriverPath = fullfile(config.library_path, library);   

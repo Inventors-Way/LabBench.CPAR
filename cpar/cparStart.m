@@ -1,16 +1,19 @@
-function cparStart(dev, condition, forced)
+function [data] = cparStart(dev, condition, forced)
 % cparStart
-%   cparStart(dev, condition, forced) start a stimulation with stop condition
-%   [condition] and forced start [forced].
+%   [data] = cparStart(dev, condition, forced) start a stimulation with stop 
+%   condition [condition] and forced start [forced].
 %
 %   The stop condition determines what will terminate the stimulation, and has 
 %   two possible values:
 %
-%     'v': VAS Mode, the stimulation will stop when either the VAS rating reaches 
-%          10cm or if the subject presses the button.
-%     'b': Button Mode, the stimulation will only stop if subject presses the 
-%          button. Consequently, it will continue even if the VAS rating reaches
-%          10cm.
+%     'v ': VAS Mode, the stimulation will stop when either the VAS rating reaches 
+%           10cm or if the subject presses the button.
+%     'bp': Button Pressed Mode, the stimulation will only stop if subject presses the 
+%           button. Consequently, it will continue even if the VAS rating reaches
+%           10cm.
+%     'br': Button Released Mode, the stimulation will only stop if the subject released 
+%           the button. Consequently, it will continue even if the VAS rating reaches
+%           10cm.
 %
 %   The forced start determines whether or not to enforce that the VAS rating 
 %   should be set to zero before a stimulation is started. If [forced] is false
@@ -22,9 +25,11 @@ function cparStart(dev, condition, forced)
 %
 %   See also, cparStop
 if strcmp(condition, 'v')
-    stop = LabBench.Interface.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
-elseif (strcmp(condition, 'b'))
-    stop = LabBench.Interface.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON;        
+    stop = LabBench.Interface.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
+elseif (strcmp(condition, 'bp'))
+    stop = LabBench.Interface.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_PRESSED;        
+elseif (strcmp(condition, 'br'))
+    stop = LabBench.Interface.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_RELEASED;        
 else
    error('Invalid stop condition, valid values are v or b'); 
 end

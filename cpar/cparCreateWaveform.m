@@ -1,6 +1,6 @@
-function [func] = cparCreateWaveform(channel, repeat)
+function [waveform] = cparCreateWaveform(channel, repeat)
 % cparCreateWaveformProgram Create a waveform program
-%   [func] = cparCreateWaveformProgram(channel, repeat)
-func = LabBench.CPAR.Functions.SetWaveformProgram;
-func.Channel = channel - 1;
-func.Repeat = repeat;
+%   [waveform] = cparCreateWaveformProgram(channel, repeat)
+waveform = LabBench.Instruments.CPAR.Functions.SetWaveformProgram;
+waveform.Channel = channel - 1;
+waveform.Repeat = repeat;
