@@ -4,15 +4,14 @@ IDs = cparList;
 dev = cparGetDevice(IDs(1));
 
 try
-    % Create a stimulus 
-    waveform = cparCreateWaveform(1, 1);
-    cparWaveform_Step(waveform, 20, 0);
-    cparWaveform_Inc(waveform, 30, 1);
-    cparWaveform_Dec(waveform, 20, 1);
-    dev.Execute(waveform);
+    % Create the pressure waveforms
+    waveform01 = cparCreateWaveform(1, 1);
+    cparWaveform_Step(waveform01, 20, 0);
+    cparWaveform_Inc(waveform01, 30, 1);
+    cparWaveform_Dec(waveform01, 20, 1);
    
-    waveform = cparCreateWaveform(2, 1);
-    dev.Execute(waveform);
+    waveform02 = cparCreateWaveform(2, 1);    
+    cparSetWaveform(dev, waveform01, waveform02);
 
     % Start the stimulation
     cparStart(dev, 'bp', true);

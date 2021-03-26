@@ -1,5 +1,6 @@
 function [IDs] = cparList()
 % cparList List installed CPAR devices on the system
+%   [IDs] = cparList()
 
     devices = LabBench.Instruments.InstrumentDB.Instruments;
     IDs = [];
