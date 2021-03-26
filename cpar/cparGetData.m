@@ -1,6 +1,7 @@
 function [data] = cparGetData(dev, data)
 % cparGetData Collect data into a sampling structure
-%   [data] = cparGetData(dev, data)
+%   [data] = cparGetData(dev, data) get data that has been accumulating in
+%   the cpar device.
 %
 % See also, cparStartSampling, cparStart, cparStopSampling
     samples = dev.GetUpdates();
