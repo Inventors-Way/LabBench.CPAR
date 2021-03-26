@@ -13,7 +13,7 @@
 %   cparWaveform_Step      - Add a step in pressure to a waveform
 %   cparWaveform_Inc       - Add a linear increase in pressure to a waveform
 %   cparWaveform_Dec       - Add a linear decrease in pressure to a waveform
-%   cparSetWaveform        - Add a pressure waveform to a cpar device.
+%   cparSetWaveform        - Set pressure waveform programs
 %   cparStart              - Start a presssure stimulation
 %   cparStop               - Stop a pressure stimulation before it is completed
 %
