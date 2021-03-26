@@ -9,8 +9,7 @@ function [IDs] = cparList()
         record = devices.Item(n);
        
         if record.EquipmentType == LabBench.Interface.InstrumentType.CPAR            
-            str = sprintf("%s", record.ID);
-            IDs = [IDs; str];
+            IDs = [IDs; sprintf("%s", record.ID)]; %#ok<AGROW> It is acceptable as it will always be a very short list
         end
     end
 end
