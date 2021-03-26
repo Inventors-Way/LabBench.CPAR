@@ -1,6 +1,6 @@
-function [data_out] = cparGetData(dev, data)
+function [data] = cparGetData(dev, data)
 % cparGetData
-%   [dataOut] = cparGetData(dev, dataIn)
+%   [data] = cparGetData(dev, data)
     samples = dev.GetUpdates();
 
     for n = 0:samples.Count-1
@@ -13,5 +13,4 @@ function [data_out] = cparGetData(dev, data)
         data.Final02 = samples.Item(n).FinalPressure.Item(1);
         data.FinalVAS = samples.Item(n).FinalVasScore;
     end
-    data_out = data;
 end
