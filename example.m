@@ -1,23 +1,3 @@
-# LabBench.CPAR
-
-Matlab toolbox for the Cuff Pressure Algometry Research (CPAR) device from Nocitech ApS.
-
-## Prerequisites
-
-The CPAR toolbox requires LabBench to be installed and properly configured on the machine, as the toolbox
-use the CPAR device drivers of LabBench to communicate and control the CPAR device.
-
-## Installation
-
-For installation copy the cpar directory in the current repository and add this directory
-to the path of Matlab.
-
-## Usage
-
-Below is an example that demonstrate how to use the toolbox to perform pressure stimulations with the CPAR device, 
-and how to collect data from the CPAR device:
-
-```matlab
 % Create a device and open communication with the device.
 %
 % If the script is called multiple times, then this will produce a warning
@@ -143,4 +123,3 @@ try
 catch me
     me
 end
-```

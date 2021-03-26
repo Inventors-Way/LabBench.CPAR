@@ -1,23 +1,3 @@
-# LabBench.CPAR
-
-Matlab toolbox for the Cuff Pressure Algometry Research (CPAR) device from Nocitech ApS.
-
-## Prerequisites
-
-The CPAR toolbox requires LabBench to be installed and properly configured on the machine, as the toolbox
-use the CPAR device drivers of LabBench to communicate and control the CPAR device.
-
-## Installation
-
-For installation copy the cpar directory in the current repository and add this directory
-to the path of Matlab.
-
-## Usage
-
-Below is an example that demonstrate how to use the toolbox to perform pressure stimulations with the CPAR device, 
-and how to collect data from the CPAR device:
-
-```matlab
 % Create a device and open communication with the device.
 %
 % If the script is called multiple times, then this will produce a warning
@@ -105,10 +85,8 @@ try
     % This also implicitly starts the collection of data, which can be
     % retrived with the cparGetData function.
     cparStart(dev, 'bp', true);    
-    
-    % Initialize a data sampling structure 
-    data = cparInitializeSampling;
-    
+    cparStopSampling(dev);
+   
     % Wait until stimulation has completed
     while (cparIsRunning(dev))
         fprintf('.');
@@ -116,31 +94,6 @@ try
     end
     fprintf(' completed\n'); 
 
-    % Retrive data from the device. 
-    data = cparGetData(dev, data);
-    
-    % Finalize the sampling structure, which converts the data in contains
-    % in to Matlab matrices that are easier to process in Matlab.
-    %
-    % This also calls the cparStopSampling function, which must be called
-    % after either the cparStart or cparStartSampling function is called.
-    % If it is not called at some point after one of these two functions
-    % has been called, the cpar device will continue to collect data, and
-    % will gradually fill up the memory of the computer, albeit, on a
-    % modern computer with GB of memory this may takes many hours or days
-    % to happen.
-    %
-    % If data is not collected from the cpar device (i.e.
-    % cparFinalizeSampling is not called). Then cparStopSampling must be
-    % called instead, however, in that case it can be called immediately
-    % after cparStart is called, even if the pressure stimulation has not
-    % completed yet.
-    data = cparFinalizeSampling(dev, data);
-    
-    % Plot data retreived from the cpar device.
-    cparPlot(data);
-
 catch me
     me
 end
-```
