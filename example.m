@@ -109,6 +109,12 @@ try
     % will gradually fill up the memory of the computer, albeit, on a
     % modern computer with GB of memory this may takes many hours or days
     % to happen.
+    %
+    % If data is not collected from the cpar device (i.e.
+    % cparFinalizeSampling is not called). Then cparStopSampling must be
+    % called instead, however, in that case it can be called immediately
+    % after cparStart is called, even if the pressure stimulation has not
+    % completed yet.
     data = cparFinalizeSampling(dev, data);
     
     % Plot data retreived from the cpar device.
