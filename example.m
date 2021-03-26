@@ -21,9 +21,10 @@ dev = cparGetDevice(IDs(1));
 % cparGetDevice is called. We therefore wait until the error is cleared on
 % the device, which signals that a connection has been established and it
 % is ready to use.
-fprintf('Waiting to connect ...');
+fprintf('Waiting to connect .');
 tic
 while cparError(dev)
+    fprintf('.');
     pause(0.2);
     
     if toc > 10
