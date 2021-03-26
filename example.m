@@ -5,7 +5,7 @@
 % consequences.
 cparInitialize;
 
-try
+try    
     % Next step is to retrieve the cpar device. We do this by assuming that
     % there is only one cpar device installed on the system, by retrieving all
     % the IDs of cpar devices from LabBench, and the getting the first device
@@ -34,6 +34,11 @@ try
         end
     end
     fprintf(' connected\n');
+    
+    if ~cparIsReady(dev)
+            me = MException('CPAR:Ready', sprintf('Device is not ready: %s', cparGetAdvice(dev)));
+            throw(me)            
+    end
 
     % Create the pressure waveforms one for each pressure outlet 1 and 2.
     %
@@ -121,5 +126,5 @@ try
     cparPlot(data);
 
 catch me
-    me
+    fprintf('Exception: %s\n', me.message);
 end
