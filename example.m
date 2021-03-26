@@ -35,6 +35,7 @@ try
     end
     fprintf(' connected\n');
     
+    % Check if the device is ready    
     if ~cparIsReady(dev)
             me = MException('CPAR:Ready', sprintf('Device is not ready: %s', cparGetAdvice(dev)));
             throw(me)            

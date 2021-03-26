@@ -35,6 +35,12 @@ try
     end
     fprintf(' connected\n');
 
+    % Check if the device is ready
+    if ~cparIsReady(dev)
+            me = MException('CPAR:Ready', sprintf('Device is not ready: %s', cparGetAdvice(dev)));
+            throw(me)            
+    end
+    
     % Create the pressure waveforms one for each pressure outlet 1 and 2.
     %
     % An empty waveform is first created with the cparCreateWaveform
