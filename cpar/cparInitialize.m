@@ -16,8 +16,9 @@ function cparInitialize()
 %    only be possible to recover from this error by restarting Matlab.
 %
 %    However, before the toolbox can use cpar devices this instrument
-%    database needs to be initialized, which is done with this function
-%    before any other functions in the toolbox is called.
+%    database needs to be initialized, which is done with this function.
+%    This initialization must be performed before any other functions in 
+%    the toolbox is used.
 %
 %    Calling this function twice or several times will produce a warninng
 %    that the instrument database is allready initialized, however, nothing
