@@ -10,6 +10,8 @@ function [data_out] = cparFinalizeSampling(dev, data_in)
     data_out.Final01 = data_in.Final01;
     data_out.Final02 = data_in.Final02;
     data_out.FinalVAS = data_in.FinalVAS;
+    
+    data_out.t = (0:length(data_out.Pressure01)-1)/20;
 end
 
 function [x] = ConvertToArray(list)
