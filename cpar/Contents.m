@@ -20,7 +20,7 @@
 % Data retrieval and handling
 %   cparInitializeSampling - Initialize a sampling structure
 %   cparGetData            - Collect data into a sampling structure
-%   cparFinalizeSampling   - Finalize a sampling structure
+%   cparFinalizeSampling   - Finalize sampling of data from the cpar deviced
 %   cparStartSampling      - Start sampling of data
 %   cparStopSampling       - Stop sampling of data
 %   cparPlot               - Plot the results in a sampling structure

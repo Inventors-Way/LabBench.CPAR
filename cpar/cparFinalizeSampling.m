@@ -1,5 +1,11 @@
 function [data] = cparFinalizeSampling(dev, data)
-% [data_out] = cparFinalizeSampling(dev, data_in)
+% cparFinalizeSampling Finalize sampling of data from the cpar deviced
+%    [data] = cparFinalizeSampling(dev, data) finalize sampling of data from
+%    the cpar device. This stops the sampling of data, and it converts the
+%    .NET data structures in the [data] sampling structure to Matlab data
+%    structures, which are easier to work with.
+%
+% See also, cparPlot
 
     cparStopSampling(dev);
     data.Pressure01 = ConvertToArray(data.Pressure01);
