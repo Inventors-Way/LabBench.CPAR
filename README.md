@@ -14,3 +14,4 @@ to the path of Matlab.
 
 ## Usage
 
+Please see example.m for instructions on how to use the toolbox.
