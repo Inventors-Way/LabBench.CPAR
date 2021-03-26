@@ -1,6 +1,6 @@
 function cparWaveform_Inc(func, dp, t)
 % cparWaveform_Inc Add a increment instruction to a waveform
-%   cparWaveform_Inc(func, dp, t) creates a step instruction which results
+%   cparWaveform_Inc(func, dp, t) creates a INC instruction which results
 %   in a linearly increasing pressure with a rate of increase of [dp]
 %   [kPa/s] for [t] seconds.
 %

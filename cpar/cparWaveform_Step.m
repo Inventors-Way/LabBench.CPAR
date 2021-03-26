@@ -1,6 +1,6 @@
 function cparWaveform_Step(waveform, p, t)
 % cparWaveform_Step Add a step instruction to a waveform
-%   cparWaveform_Step(func, p, t) creates a step instruction which results
+%   cparWaveform_Step(func, p, t) creates a STEP instruction which results
 %   in a pressure [p] being generated for [t] seconds. It is possible to
 %   set [t] to zero, in that case the cpar device will change the pressure 
 %   to [p] and execute the next instruction in the same instruction cycle.
