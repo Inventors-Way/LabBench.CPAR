@@ -1,17 +1,14 @@
-function [data_out] = cparFinalizeSampling(dev, data_in)
+function [data] = cparFinalizeSampling(dev, data)
 % [data_out] = cparFinalizeSampling(dev, data_in)
 
     cparStopSampling(dev);
-    data_out.Pressure01 = ConvertToArray(data_in.Pressure01);
-    data_out.Pressure02 = ConvertToArray(data_in.Pressure02);
-    data_out.Target01 = ConvertToArray(data_in.Target01);
-    data_out.Target02 = ConvertToArray(data_in.Target02);
-    data_out.VAS = ConvertToArray(data_in.VAS);
-    data_out.Final01 = data_in.Final01;
-    data_out.Final02 = data_in.Final02;
-    data_out.FinalVAS = data_in.FinalVAS;
+    data.Pressure01 = ConvertToArray(data.Pressure01);
+    data.Pressure02 = ConvertToArray(data.Pressure02);
+    data.Target01 = ConvertToArray(data.Target01);
+    data.Target02 = ConvertToArray(data.Target02);
+    data.VAS = ConvertToArray(data.VAS);
     
-    data_out.t = (0:length(data_out.Pressure01)-1)/20;
+    data.t = (0:length(data.Pressure01)-1)/20;
 end
 
 function [x] = ConvertToArray(list)
