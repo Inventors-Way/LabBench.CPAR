@@ -1,6 +1,8 @@
 function [data] = cparGetData(dev, data)
-% cparGetData
+% cparGetData Collect data into a sampling structure
 %   [data] = cparGetData(dev, data)
+%
+% See also, cparStartSampling, cparStart, cparStopSampling
     samples = dev.GetUpdates();
 
     for n = 0:samples.Count-1
