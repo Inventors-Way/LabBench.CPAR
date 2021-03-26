@@ -1,6 +1,7 @@
 % Create a device and open communication with the device.
 cparInitialize;
-dev = cparGetDevice('CPAR:1');
+IDs = cparList;
+dev = cparGetDevice(IDs(1));
 
 try
     % Create a stimulus 
