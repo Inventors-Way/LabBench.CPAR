@@ -1,4 +1,7 @@
 % Cuff Pressure Algometry Reseach (CPAR) Toolbox
+% 
+% Matlab toolbox for the Cuff Pressure Algometry Research (CPAR) device
+% from Nocitech ApS.
 %
 % Initialization and management of CPAR devices
 %   cparInitialize         - Initialize the Instrument database.
