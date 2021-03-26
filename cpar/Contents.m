@@ -18,8 +18,8 @@
 %   cparInitializeSampling - Initialize a sampling structure
 %   cparGetData            - Collect data into a sampling structure
 %   cparFinalizeSampling   - Finalize a sampling structure
-%   cparStartSampling      - Start sampling 
-%   cparStopSampling       - Stop sampling
+%   cparStartSampling      - Start sampling of data
+%   cparStopSampling       - Stop sampling of data
 %   cparPlot               - Plot the results in a sampling structure
 %
 % Device state and handling
