@@ -26,8 +26,8 @@
 %   cparPlot               - Plot the results in a sampling structure
 %
 % Device state and handling
-%   cparError              - Get the error description (if any) of a cpar device
+%   cparError              - Has there been established a connection with the device
 %   cparIsRunning          - Check if a pressure stimulation is running
 %   cparPing               - Check the connection to a cpar device
 %   cparIsReady            - Is the device ready to perform a pressure stimulation
-%   cparGetAdvice          - Get advice on why the device is not ready.
+%   cparGetAdvice          - Get advice (if any) on why the device is not ready.
