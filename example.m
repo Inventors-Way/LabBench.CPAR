@@ -5,36 +5,36 @@
 % consequences.
 cparInitialize;
 
-% Next step is to retrieve the cpar device. We do this by assuming that
-% there is only one cpar device installed on the system, by retrieving all
-% the IDs of cpar devices from LabBench, and the getting the first device
-% on the list.
-%
-% If there is more than one cpar device on the machine this code needs to
-% be rewritten and the device ID must be known and inserted into the
-% script.
-IDs = cparList;
-dev = cparGetDevice(IDs(1));
-
-% The first time the script is run it will take some time for the LabBench
-% Instrument Database to open a connection to the cpar device after the
-% cparGetDevice is called. We therefore wait until the error is cleared on
-% the device, which signals that a connection has been established and it
-% is ready to use.
-fprintf('Waiting to connect .');
-tic
-while cparError(dev)
-    fprintf('.');
-    pause(0.2);
-    
-    if toc > 10
-        me = MException('CPAR:TimeOut', 'No connection');
-        throw(me);
-    end
-end
-fprintf(' connected\n');
-
 try
+    % Next step is to retrieve the cpar device. We do this by assuming that
+    % there is only one cpar device installed on the system, by retrieving all
+    % the IDs of cpar devices from LabBench, and the getting the first device
+    % on the list.
+    %
+    % If there is more than one cpar device on the machine this code needs to
+    % be rewritten and the device ID must be known and inserted into the
+    % script.
+    IDs = cparList;
+    dev = cparGetDevice(IDs(1));
+
+    % The first time the script is run it will take some time for the LabBench
+    % Instrument Database to open a connection to the cpar device after the
+    % cparGetDevice is called. We therefore wait until the error is cleared on
+    % the device, which signals that a connection has been established and it
+    % is ready to use.
+    fprintf('Waiting to connect .');
+    tic
+    while cparError(dev)
+        fprintf('.');
+        pause(0.2);
+
+        if toc > 10
+            me = MException('CPAR:TimeOut', 'No connection');
+            throw(me);
+        end
+    end
+    fprintf(' connected\n');
+
     % Create the pressure waveforms one for each pressure outlet 1 and 2.
     %
     % An empty waveform is first created with the cparCreateWaveform
@@ -75,19 +75,43 @@ try
     % pressure stimulation.
     cparSetWaveform(dev, waveform01, waveform02);
 
-    % Start the stimulation
-    
     fprintf('Running pressure stimulation ');
+
+    % Start the stimulation    
+    % This will start the stimulation even if the VAS score is not set to
+    % zero. The stimulation is stopped when either the pressure waveform
+    % programs is completed or the subject presses the button.
+    %
+    % This also implicitly starts the collection of data, which can be
+    % retrived with the cparGetData function.
     cparStart(dev, 'bp', true);    
+    
+    % Initialize a data sampling structure 
     data = cparInitializeSampling;
+    
     % Wait until stimulation has completed
     while (cparIsRunning(dev))
         fprintf('.');
-        pause(0.2);
-        data = cparGetData(dev, data);
+        pause(0.2);        
     end
     fprintf(' completed\n'); 
+
+    % Retrive data from the device. 
+    data = cparGetData(dev, data);
+    
+    % Finalize the sampling structure, which converts the data in contains
+    % in to Matlab matrices that are easier to process in Matlab.
+    %
+    % This also calls the cparStopSampling function, which must be called
+    % after either the cparStart or cparStartSampling function is called.
+    % If it is not called at some point after one of these two functions
+    % has been called, the cpar device will continue to collect data, and
+    % will gradually fill up the memory of the computer, albeit, on a
+    % modern computer with GB of memory this may takes many hours or days
+    % to happen.
     data = cparFinalizeSampling(dev, data);
+    
+    % Plot data retreived from the cpar device.
     cparPlot(data);
 
 catch me
