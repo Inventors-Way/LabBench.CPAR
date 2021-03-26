@@ -22,8 +22,14 @@ dev = cparGetDevice(IDs(1));
 % the device, which signals that a connection has been established and it
 % is ready to use.
 fprintf('Waiting to connect ...');
+tic
 while cparError(dev)
     pause(0.2);
+    
+    if toc > 10
+        me = MException('CPAR:TimeOut', 'No connection');
+        throw(me);
+    end
 end
 fprintf(' connected\n');
 

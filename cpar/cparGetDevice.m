@@ -24,10 +24,14 @@ function [dev] = cparGetDevice(id)
 % Code example:
 %   dev = cparGetDevice('CPAR:1');
 %
-%   % Wait until a connection has been established (a timeout would be an
-%   % improvement to the this code).
+%   % Wait until a connection has been established 
+%   tic
 %   while cparError(dev)
-%       pause(0.2);
+%      pause(0.2);%    
+%      if toc > 10
+%         me = MException('CPAR:TimeOut', 'No connection');
+%         throw(me);
+%      end
 %   end
 %
 % See also, cparList, cparInitialize
