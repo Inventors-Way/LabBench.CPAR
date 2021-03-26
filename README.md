@@ -21,14 +21,30 @@ updated. To update the firmware, verify that version 8.0.0 or newer is selected 
 button.
 
 If it does not display your CPAR device, please check that the device is connected to the computer and that no other
-program (such as CPAR Runner or LabBench) is currently connected to the device. Another problem can arise if the 
+program (such as CPAR Runner or LabBench) is currently connected to the device. Another problem can arise if the
 computer is not connected to the internet. The program needs internet connectivity to contact the firmware server, in
 order to download new firmware to your CPAR device.
 
 ## Installation
 
-For installation copy the cpar directory in the current repository and add this directory
+For installation copy the cpar directory in the current repository to a suitable location on your computer, and add this directory
 to the path of Matlab.
+
+There are at least two ways of obtaining this toolbox:
+
+### Download the toolbox as a zip file from Github
+
+In top right hand corner of the page you are currently reading there is a Code button. Click on this button and choose Download ZIP
+(this is marked with a red box in the figure below).
+
+![Download toolbox as a zip file](DownloadZip.png)
+
+This will download all the code in this repository to your computer as a zip file.
+
+### Fork the repository into your own Github account
+
+If you understand the headline of this section, we would probably insult you if we started explaining you how to get a copy of this toolbox.
+We will greatly appreciate if you choose to fork this repository, and you choose to contribute. Any contributions will be valued and appreciated.
 
 ## Usage
 
