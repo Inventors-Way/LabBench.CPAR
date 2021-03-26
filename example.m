@@ -17,7 +17,15 @@ IDs = cparList;
 dev = cparGetDevice(IDs(1));
 
 try
-    % Create the pressure waveforms
+    % Create the pressure waveforms one for each pressure outlet 1 and 2.
+    %
+    % An empty waveform is first created with the cparCreateWaveform
+    % function, which as argument takes which pressure outlet to use (1 or
+    % 2) and how many times the waveform shall be repeated.
+    %
+    % Afterwards the waveform is populated with instructions that are used
+    % by the waveform interpreter in the cpar device to generate the
+    % pressure waveform. There are three instructions; step, dec, and inc.
     waveform01 = cparCreateWaveform(1, 1);
     cparWaveform_Step(waveform01, 20, 0);
     cparWaveform_Inc(waveform01, 30, 1);
