@@ -1,5 +1,18 @@
 % Create a device and open communication with the device.
+%
+% If the script is called multiple times, then this will produce a warning
+% that the instrument database is allready initialized. This has no bad
+% consequences.
 cparInitialize;
+
+% Next step is to retrieve the cpar device. We do this by assuming that
+% there is only one cpar device installed on the system, by retrieving all
+% the IDs of cpar devices from LabBench, and the getting the first device
+% on the list.
+%
+% If there is more than one cpar device on the machine this code needs to
+% be rewritten and the device ID must be known and inserted into the
+% script.
 IDs = cparList;
 dev = cparGetDevice(IDs(1));
 
