@@ -22,13 +22,10 @@ function [dev] = cparGetDevice(id)
 %   Database.
 %
 % Code example:
-%   dev = cparGetDevice(IDs(1));
+%   dev = cparGetDevice('CPAR:1');
 %
-%   % The first time the script is run it will take some time for the LabBench
-%   % Instrument Database to open a connection to the cpar device after the
-%   % cparGetDevice is called. We therefore wait until the error is cleared on
-%   % the device, which signals that a connection has been established and it
-%   % is ready to use.
+%   % Wait until a connection has been established (a timeout would be an
+%   % improvement to the this code).
 %   while cparError(dev)
 %       pause(0.2);
 %   end
