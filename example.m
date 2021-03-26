@@ -46,10 +46,26 @@ try
     % instruction is executed immediately in the execution cycle as this
     % step instruction.
     cparWaveform_Step(waveform01, 20, 0);
+    
+    % This creates a linearly increasing pressure with a slope of 30kPa/s
+    % for onle second. It is possible to set its duration to 0s, but
+    % then the instruction would have no effect.
     cparWaveform_Inc(waveform01, 30, 1);
+    
+    % This creates a linearly decreasing pressure with a slope of 20kPa/s
+    % for one second.
     cparWaveform_Dec(waveform01, 20, 1);
    
-    waveform02 = cparCreateWaveform(2, 1);    
+    % We create an empty waveform for the second pressure outlet of the
+    % CPAR device. This is to ensure that there is no waveform configured
+    % for that pressure outlet, and hence, no stimulation is given on the
+    % cuff connected to pressure outlet 2.
+    waveform02 = cparCreateWaveform(2, 1);   
+    
+    % This sets the pressure waveforms for pressure outlet 1 and 2. Both
+    % waveforms must be set at the same time to ensure that there is not an
+    % old waveform stored in one outlet, thereby, leading to an unintended
+    % pressure stimulation.
     cparSetWaveform(dev, waveform01, waveform02);
 
     % Start the stimulation
@@ -65,6 +81,7 @@ try
     end
     fprintf(' completed\n'); 
     data = cparFinalizeSampling(dev, data);
+    cparPlot(data);
 
 catch me
     me
