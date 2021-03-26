@@ -16,6 +16,7 @@ try
 
     % Start the stimulation
     cparStart(dev, 'bp', true);
+    
     data = cparInitializeSampling;
     % Wait until stimulation has completed
     while (cparIsRunning(dev))
