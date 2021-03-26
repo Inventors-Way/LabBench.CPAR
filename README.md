@@ -4,8 +4,26 @@ Matlab toolbox for the Cuff Pressure Algometry Research (CPAR) device from Nocit
 
 ## Prerequisites
 
+### LabBench
+
 The CPAR toolbox requires LabBench to be installed and properly configured on the machine, as the toolbox
 use the CPAR device drivers of LabBench to communicate and control the CPAR device.
+
+### CPAR Firmware
+
+The firmware on CPAR device needs to be Version 8.0.0 or higher. Which version is currently running on your CPAR
+device can be checked with the LabBench Firmware Updater:
+
+![LabBench Firmware Updater](LabBenchFirmwareUpdater.png)
+
+In the example above, CPAR is running Version 7.0.0, which is not compatible with the current toolbox and needs to
+updated. To update the firmware, verify that version 8.0.0 or newer is selected under Firmware and press the Update
+button.
+
+If it does not display your CPAR device, please check that the device is connected to the computer and that no other
+program (such as CPAR Runner or LabBench) is currently connected to the device. Another problem can arise if the 
+computer is not connected to the internet. The program needs internet connectivity to contact the firmware server, in
+order to download new firmware to your CPAR device.
 
 ## Installation
 
