@@ -16,6 +16,11 @@ cparInitialize;
 IDs = cparList;
 dev = cparGetDevice(IDs(1));
 
+% The first time the script is run it will take some time for the LabBench
+% Instrument Database to open a connection to the cpar device after the
+% cparGetDevice is called. We therefore wait until the error is cleared on
+% the device, which signals that a connection has been established and it
+% is ready to use.
 fprintf('Waiting to connect ...');
 while cparError(dev)
     pause(0.2);
