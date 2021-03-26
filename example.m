@@ -38,6 +38,13 @@ try
     % by the waveform interpreter in the cpar device to generate the
     % pressure waveform. There are three instructions; step, dec, and inc.
     waveform01 = cparCreateWaveform(1, 1);
+    
+    % This creates a immediate change (step) in the pressure. In this case
+    % the pressure is set to 20kPa. The second argument is the number of
+    % seconds that the pressure is held for before the next instruction is
+    % executed. In this case the time is zero, which means that the next
+    % instruction is executed immediately in the execution cycle as this
+    % step instruction.
     cparWaveform_Step(waveform01, 20, 0);
     cparWaveform_Inc(waveform01, 30, 1);
     cparWaveform_Dec(waveform01, 20, 1);
