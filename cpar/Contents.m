@@ -29,4 +29,5 @@
 %   cparError              - Get the error description (if any) of a cpar device
 %   cparIsRunning          - Check if a pressure stimulation is running
 %   cparPing               - Check the connection to a cpar device
-
+%   cparIsReady            - Is the device ready to perform a pressure stimulation
+%   cparGetAdvice          - Get advice on why the device is not ready.

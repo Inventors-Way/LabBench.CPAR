@@ -1,6 +1,11 @@
 function [err] = cparError(dev)
 % cparError Retrive error information 
-%   [err] = cparError(dev) get the error string currently
-%   set in the CPAR device. If it is empty it means no error
-%   has occured in the device.
+%   [err] = cparError(dev) return the error state of the cpar device.
+%
+% Note:
+%    The CPAR device will only return an error if a connection cannot be
+%    established with the device. This is not the same as the device being
+%    ready to perform a pressure stimulation.
+%
+% See also, cparIsRunning, cparIsReady, cparGetAdvice
 err = dev.Error;
