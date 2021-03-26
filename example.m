@@ -16,6 +16,12 @@ cparInitialize;
 IDs = cparList;
 dev = cparGetDevice(IDs(1));
 
+fprintf('Waiting to connect ...');
+while cparError(dev)
+    pause(0.2);
+end
+fprintf(' connected\n');
+
 try
     % Create the pressure waveforms one for each pressure outlet 1 and 2.
     %
@@ -35,16 +41,17 @@ try
     cparSetWaveform(dev, waveform01, waveform02);
 
     % Start the stimulation
-    cparStart(dev, 'bp', true);
     
+    fprintf('Running pressure stimulation ');
+    cparStart(dev, 'bp', true);    
     data = cparInitializeSampling;
     % Wait until stimulation has completed
     while (cparIsRunning(dev))
-        fprintf('State: %s\n', dev.State.ToString()); 
-        pause(1);
+        fprintf('.');
+        pause(0.2);
         data = cparGetData(dev, data);
     end
-    fprintf('State: %s\n', dev.State.ToString()); 
+    fprintf(' completed\n'); 
     data = cparFinalizeSampling(dev, data);
 
 catch me
