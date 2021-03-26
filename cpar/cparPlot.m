@@ -1,6 +1,9 @@
 function cparPlot(data)
 % cparPlot Plot the results in a sampling structure
+%   cparPlot(data) this creates a plot of the actual and target pressure
+%   for pressure outlet 1 and 2, as well as a plot of the VAS scores.
 %
+% See also, cparInitializeSampling
 
 figure(1);
 clf;
