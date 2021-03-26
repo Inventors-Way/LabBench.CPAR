@@ -8,4 +8,9 @@ function [err] = cparError(dev)
 %    ready to perform a pressure stimulation.
 %
 % See also, cparIsRunning, cparIsReady, cparGetAdvice
-err = dev.Error;
+
+if dev.Error
+    err = 1;
+else
+    err = 0;
+end
