@@ -77,7 +77,7 @@ We will greatly appreciate if you choose to fork this repository, and you choose
 
 ## Usage
 
-Below is an example that demonstrate how to use the toolbox to perform pressure stimulations with the CPAR device, 
+Below is an example that demonstrate how to use the toolbox to perform pressure stimulations with the CPAR device,
 and how to collect data from the CPAR device:
 
 ```matlab
