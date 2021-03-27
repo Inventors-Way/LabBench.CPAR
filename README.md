@@ -1,6 +1,8 @@
 # LabBench.CPAR
 
 Matlab toolbox for the Cuff Pressure Algometry Research (CPAR) device from Nocitech ApS.
+The toolbox is provided so it is possible to use the CPAR device in other
+3rd party software, such as the [Psychophysics Toolbox](http://psychtoolbox.org/).
 
 ## Prerequisites
 
