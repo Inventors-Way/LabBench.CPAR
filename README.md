@@ -48,7 +48,7 @@ device can be checked with the LabBench Firmware Updater:
 ![LabBench Firmware Updater](LabBenchFirmwareUpdater.png)
 
 In the example above, CPAR is running Version 7.0.0, which is not compatible with the current toolbox and needs to be
-updated. To update the firmware, verify that version 8.0.0 or newer is selected under Firmware and press the Update
+updated. To update the firmware, verify that version 8.0.0 or a newer is selected under Firmware and press the Update
 button.
 
 If it does not display your CPAR device, please check that the device is connected to the computer and that no other
