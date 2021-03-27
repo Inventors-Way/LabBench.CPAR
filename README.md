@@ -4,10 +4,39 @@ Matlab toolbox for the Cuff Pressure Algometry Research (CPAR) device from Nocit
 
 ## Prerequisites
 
+LabBench is used to manage the connection to CPAR devices. Consequently,
+the Matlab toolbox does not handle connection, communication and
+disconnection with CPAR devices, but this is instead handled by the
+LabBench Instrument Database.
+
+This has the advantage that any error or exception in Matlab will not
+cause the CPAR device to be locked or similar, which could for example
+occur if Matlab directly opened a connection to the cpar device, an
+error occurred, and the connection was never closed again. If the cpar
+device could get locked it would only be possible to recover from this
+ error by restarting Matlab.
+
 ### LabBench
 
-The CPAR toolbox requires LabBench to be installed and properly configured on the machine, as the toolbox
-use the CPAR device drivers of LabBench to communicate and control the CPAR device.
+The CPAR toolbox requires LabBench to be installed and properly configured on the machine,
+as the toolbox use the CPAR device drivers of LabBench to communicate and control the CPAR
+device.
+
+The CPAR device is delivered with a lab computer which comes preconfigured with
+the software required to use the CPAR device. If your CPAR device has a serial number
+of 15 or higher this lab computer comes with LabBench, and the computer will be ready for
+a Matlab install and installation of this toolbox.
+
+However, if your device has a serial number of 14 or lower, the lab computer will have been
+delivered with the CPAR Runner software, which is not supported by this toolbox. In that
+case you will have to install and configure LabBench. You may also wish to install and
+configure LabBench on an additional computer, in the case it is easier or only possible
+to use Matlab on a second computer. The for LabBench license is tied to the device, and
+consequently, you can install LabBench on as many computers you require without limitation.
+
+If you require to install LabBench on additional computers, or if it has not been installed
+on the lab computer that was delivered with the CPAR device, then please contact
+```info@inventors.dk```.
 
 ### CPAR Firmware
 
