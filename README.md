@@ -33,7 +33,7 @@ However, if your device has a serial number of 14 or lower, the lab computer wil
 delivered with the CPAR Runner software, which is not supported by this toolbox. In that
 case you will have to install and configure LabBench. You may also wish to install and
 configure LabBench on an additional computer, in the case it is easier or only possible
-to use Matlab on a second computer. The for LabBench license is tied to the device, and
+to use Matlab on a second computer. The LabBench license for CPAR is tied to the device, and
 consequently, you can install LabBench on as many computers you require without limitation.
 
 If you require to install LabBench on additional computers, or if it has not been installed
