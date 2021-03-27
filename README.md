@@ -205,8 +205,8 @@ try
     % Retrive data from the device. 
     data = cparGetData(dev, data);
     
-    % Finalize the sampling structure, which converts the data in contains
-    % in to Matlab matrices that are easier to process in Matlab.
+    % Finalize the sampling structure, which converts the data it contains
+    % to Matlab matrices that are easier to process in Matlab.
     %
     % This also calls the cparStopSampling function, which must be called
     % after either the cparStart or cparStartSampling function is called.
