@@ -1,4 +1,4 @@
-% Create a device and open communication with the device.
+% Initialize the LabBench Instrument Database
 %
 % If the script is called multiple times, then this will produce a warning
 % that the instrument database is allready initialized. This has no bad
