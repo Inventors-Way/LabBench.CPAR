@@ -13,8 +13,8 @@ LabBench Instrument Database.
 
 This has the advantage that any error or exception in Matlab will not
 cause the CPAR device to be locked or similar, which could for example
-occur if Matlab directly opened a connection to the cpar device, an
-error occurred, and the connection was never closed again. If the cpar
+occur if Matlab directly opened a connection to the CPAR device, an
+error occurred, and the connection was never closed again. If the CPAR
 device could get locked it would only be possible to recover from this
  error by restarting Matlab.
 
@@ -112,19 +112,19 @@ and how to collect data from the CPAR device:
 cparInitialize;
 
 try
-    % Next step is to retrieve the cpar device. We do this by assuming that
-    % there is only one cpar device installed on the system, by retrieving all
-    % the IDs of cpar devices from LabBench, and the getting the first device
+    % Next step is to retrieve the CPAR device. We do this by assuming that
+    % there is only one CPAR device installed on the system, by retrieving all
+    % the IDs of CPAR devices from LabBench, and the getting the first device
     % on the list.
     %
-    % If there is more than one cpar device on the machine this code needs to
+    % If there is more than one CPAR device on the machine this code needs to
     % be rewritten and the device ID must be known and inserted into the
     % script.
     IDs = cparList;
     dev = cparGetDevice(IDs(1));
 
     % The first time the script is run it will take some time for the LabBench
-    % Instrument Database to open a connection to the cpar device after the
+    % Instrument Database to open a connection to the CPAR device after the
     % cparGetDevice is called. We therefore wait until the error is cleared on
     % the device, which signals that a connection has been established and it
     % is ready to use.
@@ -148,7 +148,7 @@ try
     % 2) and how many times the waveform shall be repeated.
     %
     % Afterwards the waveform is populated with instructions that are used
-    % by the waveform interpreter in the cpar device to generate the
+    % by the waveform interpreter in the CPAR device to generate the
     % pressure waveform. There are three instructions; step, dec, and inc.
     waveform01 = cparCreateWaveform(1, 1);
     
@@ -211,19 +211,19 @@ try
     % This also calls the cparStopSampling function, which must be called
     % after either the cparStart or cparStartSampling function is called.
     % If it is not called at some point after one of these two functions
-    % has been called, the cpar device will continue to collect data, and
+    % has been called, the CPAR device will continue to collect data, and
     % will gradually fill up the memory of the computer, albeit, on a
     % modern computer with GB of memory this may takes many hours or days
     % to happen.
     %
-    % If data is not collected from the cpar device (i.e.
+    % If data is not collected from the CPAR device (i.e.
     % cparFinalizeSampling is not called). Then cparStopSampling must be
     % called instead, however, in that case it can be called immediately
     % after cparStart is called, even if the pressure stimulation has not
     % completed yet.
     data = cparFinalizeSampling(dev, data);
     
-    % Plot data retreived from the cpar device.
+    % Plot data retreived from the CPAR device.
     cparPlot(data);
 
 catch me
