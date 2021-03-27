@@ -56,6 +56,9 @@ program (such as CPAR Runner or LabBench) is currently connected to the device. 
 computer is not connected to the internet. The program needs internet connectivity to contact the firmware server, in
 order to download new firmware to your CPAR device.
 
+If your CPAR device has a serial number of 16 or lower the lab computer will not have been delivered with the LabBench
+Firmware Updater but instead with the CPAR Bootload Program. In that case please contact ```info@inventors.dk```.
+
 ## Installation
 
 For installation copy the cpar directory in the current repository to a suitable location on your computer, and add this directory
