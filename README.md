@@ -38,7 +38,7 @@ consequently, you can install LabBench on as many computers you require without 
 
 If you require to install LabBench on additional computers, or if it has not been installed
 on the lab computer that was delivered with the CPAR device, then please contact
-```ma@nocitech.com```.
+```info@inventors.dk```.
 
 ### CPAR Firmware
 
@@ -57,7 +57,7 @@ computer is not connected to the internet. The program needs internet connectivi
 order to download new firmware to your CPAR device.
 
 If your CPAR device has a serial number of 16 or lower the lab computer will not have been delivered with the LabBench
-Firmware Updater but instead with the CPAR Bootload Program. In that case please contact ```ma@nocitech.com```.
+Firmware Updater but instead with the CPAR Bootload Program. In that case please contact ```info@inventors.dk```.
 
 ## Installation
 
