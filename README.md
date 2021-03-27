@@ -61,7 +61,7 @@ Firmware Updater but instead with the CPAR Bootload Program. In that case please
 
 ## Installation
 
-For installation copy the cpar directory in the current repository to a suitable location on your computer, and add this directory
+For installation copy the ```cpar``` directory in the current repository to a suitable location on your computer, and add this directory
 to the path of Matlab.
 
 There are at least two ways of obtaining this toolbox:
@@ -100,7 +100,7 @@ the toolbox is to be used.
 
 ### Practical example
 
-Below is an example that demonstrate how to use the toolbox to perform pressure stimulations with the CPAR device,
+Below is an example that demonstrates how to use the toolbox to perform pressure stimulations with the CPAR device,
 and how to collect data from the CPAR device:
 
 ```matlab
