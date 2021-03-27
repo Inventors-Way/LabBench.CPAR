@@ -42,7 +42,7 @@ on the lab computer that was delivered with the CPAR device, then please contact
 
 ### CPAR Firmware
 
-The firmware on CPAR device needs to be Version 8.0.0 or higher. Which version is currently running on your CPAR
+The firmware on the CPAR device needs to be Version 8.0.0 or higher. Which version is currently running on your CPAR
 device can be checked with the LabBench Firmware Updater:
 
 ![LabBench Firmware Updater](LabBenchFirmwareUpdater.png)
