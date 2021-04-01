@@ -52,6 +52,7 @@ try
     % pressure waveform. There are three instructions; step, dec, and inc.
     waveform01 = cparCreateWaveform(1, 1);
 
+    % Wait 0.5s to start
     cparWaveform_Step(waveform01, 0, 0.5);
     
     % This creates a immediate change (step) in the pressure. In this case
