@@ -68,7 +68,11 @@ try
     % This creates a linearly decreasing pressure with a slope of 20kPa/s
     % for one second.
     cparWaveform_Dec(waveform01, 20, 1);
-   
+
+    % Create a second square pressure stimulation
+    cparWaveform_Step(waveform01, 0, 1);
+    cparWaveform_Step(waveform01, 20, 1);
+    
     % We create an empty waveform for the second pressure outlet of the
     % CPAR device. This is to ensure that there is no waveform configured
     % for that pressure outlet, and hence, no stimulation is given on the
