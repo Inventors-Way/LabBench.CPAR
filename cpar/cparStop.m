@@ -3,4 +3,4 @@ function cparStop(dev)
 %   cparStop(dev) stops a stimulation.
 %
 %   See also, cparStart
-dev.Stop();
+dev.StopStimulation();

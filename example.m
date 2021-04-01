@@ -106,7 +106,7 @@ try
     % Wait until stimulation has completed
     while (cparIsRunning(dev))
         fprintf('.');
-        pause(0.2);        
+        pause(0.2);    
     end
     fprintf(' completed\n'); 
 
