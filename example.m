@@ -51,6 +51,8 @@ try
     % by the waveform interpreter in the cpar device to generate the
     % pressure waveform. There are three instructions; step, dec, and inc.
     waveform01 = cparCreateWaveform(1, 1);
+
+    cparWaveform_Step(waveform01, 0, 0.5);
     
     % This creates a immediate change (step) in the pressure. In this case
     % the pressure is set to 20kPa. The second argument is the number of
@@ -70,8 +72,9 @@ try
     cparWaveform_Dec(waveform01, 20, 1);
 
     % Create a second square pressure stimulation
-    cparWaveform_Step(waveform01, 0, 1);
+    cparWaveform_Step(waveform01, 0, 4);
     cparWaveform_Step(waveform01, 20, 1);
+    cparWaveform_Step(waveform01, 0, 0.5);
     
     % We create an empty waveform for the second pressure outlet of the
     % CPAR device. This is to ensure that there is no waveform configured
