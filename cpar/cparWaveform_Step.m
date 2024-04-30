@@ -12,5 +12,5 @@ function cparWaveform_Step(waveform, p, t)
 %   20Hz pressure update rate, this will be in multiples of 50ms.
 %
 % See also, cparWaveform_Inc, cparWaveform_Dec, cparSetWaveform
-   waveform.Instructions.Add(LabBench.Interface.Algometry.Instruction.Step(p, t));
+   waveform.Instructions.Add(LabBench.Interface.Instruments.Algometry.Instruction.Step(p, t));
 end

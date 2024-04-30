@@ -26,11 +26,15 @@ function cparInitialize()
 %    of the toolbox.
 %
 % See also, cparList, cparGetDevice
+dotnetenv("core");
 config = cparLibraryInfo;
 AddLibrary(config, 'LabBench.Instruments.dll')
-AddLibrary(config, 'LabBench.Instruments.CPAR.dll')
+AddLibrary(config, 'LabBench.Storage.dll')
+%AddLibrary(config, 'LabBench.Instruments.CPAR.dll')
 
 try
+    LabBench.Storage.LocalStorage.Initialize('C:\LabBench4');
+
     LabBench.Instruments.InstrumentDB.Create();    
 catch exception    
     fprintf("Warning: %s\n", exception.ExceptionObject.Message)

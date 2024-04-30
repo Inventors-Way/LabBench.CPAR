@@ -25,11 +25,11 @@ function [data] = cparStart(dev, condition, forced)
 %
 %   See also, cparStop
 if strcmp(condition, 'v')
-    stop = LabBench.Interface.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
+    stop = LabBench.Interface.Instruments.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_VAS;
 elseif (strcmp(condition, 'bp'))
-    stop = LabBench.Interface.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_PRESSED;        
+    stop = LabBench.Interface.Instruments.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_PRESSED;        
 elseif (strcmp(condition, 'br'))
-    stop = LabBench.Interface.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_RELEASED;        
+    stop = LabBench.Interface.Instruments.Algometry.AlgometerStopCriterion.STOP_CRITERION_ON_BUTTON_RELEASED;        
 else
    error('Invalid stop condition, valid values are v or b'); 
 end

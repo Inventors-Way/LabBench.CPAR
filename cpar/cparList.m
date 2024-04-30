@@ -33,7 +33,7 @@ function [IDs] = cparList()
     for n = 0:devices.Count - 1
         record = devices.Item(n);
        
-        if record.EquipmentType == LabBench.Interface.InstrumentType.CPAR            
+        if record.EquipmentType == LabBench.Interface.DeviceType.CPAR            
             IDs = [IDs; sprintf("%s", record.ID)]; %#ok<AGROW> It is acceptable as it will always be a very short list
         end
     end

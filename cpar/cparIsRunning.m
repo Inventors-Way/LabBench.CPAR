@@ -4,6 +4,6 @@ function [running] = cparIsRunning(dev)
 %   is current being performed by the cpar device.
 %
 % See also, cparError
-   running = dev.State == LabBench.Interface.Algometry.AlgometerState.STATE_STIMULATING;
+   running = dev.State == LabBench.Interface.Instruments.Algometry.AlgometerState.STATE_STIMULATING;
 end
 

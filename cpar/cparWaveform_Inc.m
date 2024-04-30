@@ -10,6 +10,6 @@ function cparWaveform_Inc(func, dp, t)
 %   20Hz pressure update rate, this will be in multiples of 50ms.
 %
 % See also, cparWaveform_Step, cparWaveform_Dec, cparSetWaveform
-   func.Instructions.Add(LabBench.Interface.Algometry.Instruction.Increment(dp, t));
+   func.Instructions.Add(LabBench.Interface.Instruments.Algometry.Instruction.Increment(dp, t));
 end
 
