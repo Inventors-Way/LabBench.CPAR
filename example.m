@@ -102,7 +102,7 @@ try
     
     % Initialize a data sampling structure 
     data = cparInitializeSampling;
-    
+
     % Wait until stimulation has completed
     while (cparIsRunning(dev))
         fprintf('.');

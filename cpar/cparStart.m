@@ -33,7 +33,10 @@ elseif (strcmp(condition, 'br'))
 else
    error('Invalid stop condition, valid values are v or b'); 
 end
-        
+
+dev.PingEnabled = true;
+dev.ConfigurePressureOutput(0, LabBench.Interface.Instruments.Algometry.ChannelID.CH01);
+dev.ConfigurePressureOutput(1, LabBench.Interface.Instruments.Algometry.ChannelID.NONE);
 dev.StartStimulation(stop, forced)
 pause(0.1); % Wait for the device to start
 
